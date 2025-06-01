@@ -40,6 +40,6 @@ window.addEventListener('unhandledrejection', ({reason}) =>
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Editor />
+    <Editor showTreeView={false}  />
   </React.StrictMode>,
 );

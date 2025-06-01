@@ -276,11 +276,11 @@ export default function Editor(props: {
         <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
         {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
         {shouldAllowHighlightingWithBrackets && <SpecialTextPlugin />}
-        <ActionsPlugin
+      </div>
+      <ActionsPlugin
           isRichText={isRichText}
           shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown}
         />
-      </div>
       {showTreeView && <TreeViewPlugin />}
     </>
   );

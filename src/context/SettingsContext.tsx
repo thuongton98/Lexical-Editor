@@ -42,7 +42,7 @@ export const SettingsContext = ({
   children: ReactNode;
 }): JSX.Element => {
   const [settings, setSettings] = useState(
-    merge(settingProps, INITIAL_SETTINGS),
+    merge(INITIAL_SETTINGS, settingProps),
   );
 
   const setOption = useCallback((setting: SettingName, value: boolean) => {
@@ -57,7 +57,7 @@ export const SettingsContext = ({
     if (!settingProps) {
       return;
     }
-    setSettings((ss) => merge(settingProps, ss, INITIAL_SETTINGS));
+    setSettings((ss) => merge(INITIAL_SETTINGS, ss, settingProps, ));
   }, [settingProps]);
 
   const contextValue = useMemo(() => {
