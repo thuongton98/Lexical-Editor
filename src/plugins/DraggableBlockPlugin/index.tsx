@@ -56,8 +56,8 @@ export default function DraggableBlockPlugin({
   return (
     <DraggableBlockPlugin_EXPERIMENTAL
       anchorElem={anchorElem}
-      menuRef={menuRef}
-      targetLineRef={targetLineRef}
+      menuRef={menuRef as React.RefObject<HTMLDivElement>}
+      targetLineRef={targetLineRef as React.RefObject<HTMLDivElement>}
       menuComponent={
         <div ref={menuRef} className="icon draggable-block-menu">
           <button

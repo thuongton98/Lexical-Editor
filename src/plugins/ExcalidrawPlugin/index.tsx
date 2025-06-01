@@ -6,7 +6,6 @@
  *
  */
 import type {ExcalidrawInitialElements} from '../../ui/ExcalidrawModal';
-import type {AppState, BinaryFiles} from '@excalidraw/excalidraw/types';
 import type {JSX} from 'react';
 
 import '@excalidraw/excalidraw/index.css';
@@ -28,6 +27,7 @@ import {
   ExcalidrawNode,
 } from '../../nodes/ExcalidrawNode';
 import ExcalidrawModal from '../../ui/ExcalidrawModal';
+import { AppState, BinaryFiles } from '@excalidraw/excalidraw/dist/types/excalidraw/types';
 
 export const INSERT_EXCALIDRAW_COMMAND: LexicalCommand<void> = createCommand(
   'INSERT_EXCALIDRAW_COMMAND',

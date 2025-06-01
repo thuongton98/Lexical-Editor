@@ -11,7 +11,7 @@ import type {
   BinaryFiles,
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
-} from '@excalidraw/excalidraw/types';
+} from '@excalidraw/excalidraw/dist/types/excalidraw/types';
 import type {JSX} from 'react';
 
 import './ExcalidrawModal.css';

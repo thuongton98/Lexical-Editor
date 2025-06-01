@@ -5,27 +5,75 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import babel from "@rollup/plugin-babel";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import { defineConfig } from "vite";
-import dts from "vite-plugin-dts";
+import babel from '@rollup/plugin-babel';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+import {defineConfig} from 'vite';
+import dts from 'vite-plugin-dts';
 
-import viteCopyEsm from "./viteCopyEsm";
-import viteCopyExcalidrawAssets from "./viteCopyExcalidrawAssets";
-import commonjs from "@rollup/plugin-commonjs";
+import viteCopyEsm from './viteCopyEsm';
+import viteCopyExcalidrawAssets from './viteCopyExcalidrawAssets';
+import commonjs from '@rollup/plugin-commonjs';
 
-export default defineConfig(({ mode }) => ({
+const externalPackages = [
+  'react',
+  'react-dom',
+  'katex',
+  'prettier',
+  'yjs',
+  'y-websocket',
+  'lexical',
+  '@lexical/clipboard',
+  '@lexical/code',
+  '@lexical/file',
+  '@lexical/hashtag',
+  '@lexical/link',
+  '@lexical/list',
+  '@lexical/mark',
+  '@lexical/overflow',
+  '@lexical/plain-text',
+  '@lexical/react',
+  '@lexical/rich-text',
+  '@lexical/selection',
+  '@lexical/table',
+  '@lexical/utils',
+];
+
+const globals = {
+  react: 'React',
+  'react-dom': 'ReactDOM',
+  katex: 'katex',
+  prettier: 'prettier',
+  yjs: 'Y',
+  'y-websocket': 'WebsocketProvider',
+  lexical: 'Lexical',
+  '@lexical/clipboard': 'LexicalClipboard',
+  '@lexical/code': 'LexicalCode',
+  '@lexical/file': 'LexicalFile',
+  '@lexical/hashtag': 'LexicalHashtag',
+  '@lexical/link': 'LexicalLink',
+  '@lexical/list': 'LexicalList',
+  '@lexical/mark': 'LexicalMark',
+  '@lexical/overflow': 'LexicalOverflow',
+  '@lexical/plain-text': 'LexicalPlainText',
+  '@lexical/react': 'LexicalReact',
+  '@lexical/rich-text': 'LexicalRichText',
+  '@lexical/selection': 'LexicalSelection',
+  '@lexical/table': 'LexicalTable',
+  '@lexical/utils': 'LexicalUtils',
+};
+
+export default defineConfig(({mode}) => ({
   build: {
     cssCodeSplit: true,
-    ...(mode === "production" && {
+    ...(mode === 'production' && {
       lib: {
-        entry: path.resolve(__dirname, "src/main.ts"),
+        entry: path.resolve(__dirname, 'src/main.ts'),
         fileName: (format) => `index.${format}.js`,
-        formats: ["es", "cjs"],
-        name: "LexicalPlayground",
+        formats: ['es','umd'],
+        name: 'LexicalPlayground',
       },
-      minify: "terser",
+      minify: 'terser',
       terserOptions: {
         compress: {
           toplevel: true,
@@ -34,35 +82,17 @@ export default defineConfig(({ mode }) => ({
       },
     }),
     rollupOptions: {
-      external: [
-        "katex",
-        "prettier",
-        "yjs",
-        "y-websocket",
-        "react",
-        "react-dom",
-        "lexical",
-        "@lexical/clipboard",
-        "@lexical/code",
-        "@lexical/file",
-        "@lexical/hashtag",
-        "@lexical/link",
-        "@lexical/list",
-        "@lexical/mark",
-        "@lexical/overflow",
-        "@lexical/plain-text",
-        "@lexical/react",
-        "@lexical/rich-text",
-        "@lexical/selection",
-        "@lexical/table",
-        "@lexical/utils",
-      ],
+      input:'./src/main.ts',
+      external:externalPackages,
+      output: {
+        globals,
+      },
     },
     sourcemap: false,
   },
   optimizeDeps: {
     esbuildOptions: {
-      target: "es2022",
+      target: 'es2022',
       treeShaking: true,
     },
   },

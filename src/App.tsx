@@ -236,7 +236,7 @@ export function App(props: EditorProps): JSX.Element {
   );
 }
 
-type PlayGroundAppProps = Partial<SettingType> & EditorProps;
+export type PlayGroundAppProps = Partial<SettingType> & EditorProps;
 
 export default function PlaygroundApp({
   onChange,

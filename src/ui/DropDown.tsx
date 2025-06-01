@@ -51,7 +51,7 @@ export function DropDownItem({
 
   useEffect(() => {
     if (ref && ref.current) {
-      registerItem(ref);
+      registerItem(ref as React.RefObject<HTMLButtonElement>);
     }
   }, [ref, registerItem]);
 
