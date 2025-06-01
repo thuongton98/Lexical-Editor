@@ -41,6 +41,7 @@ import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 import Settings from './Settings';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import { parseAllowedColor } from './ui/ColorPicker';
+import { ActionsBtnDisplayState, ActionsDisplayStateContext } from './context/ActionsContext';
 
 console.warn(
   'If you are profiling the playground app, please ensure you turn off the debug view. You can disable it by pressing on the settings control in the bottom-left of your screen and toggling the debug view setting.',
@@ -236,18 +237,21 @@ export function App(props: EditorProps): JSX.Element {
   );
 }
 
-export type PlayGroundAppProps = Partial<SettingType> & EditorProps;
+export type PlayGroundAppProps = Partial<SettingType> & {actionsDisplayState?: ActionsBtnDisplayState} & EditorProps;
 
 export default function PlaygroundApp({
   onChange,
   initialState,
   theme,
+  actionsDisplayState,
   ...settings
 }: PlayGroundAppProps): JSX.Element {
   return (
     <SettingsContext settingProps={settings}>
       <FlashMessageContext>
-        <App initialState={initialState} theme={theme} onChange={onChange} />
+        <ActionsDisplayStateContext settingProps={actionsDisplayState}>
+          <App initialState={initialState} theme={theme} onChange={onChange} />
+        </ActionsDisplayStateContext>
       </FlashMessageContext>
     </SettingsContext>
   );
