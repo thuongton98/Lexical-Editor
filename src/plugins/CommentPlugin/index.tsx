@@ -8,7 +8,6 @@
 
 import type {Provider} from '@lexical/yjs';
 import type {
-  EditorState,
   LexicalCommand,
   LexicalEditor,
   NodeKey,
@@ -27,18 +26,8 @@ import {
   $wrapSelectionInMarkNode,
   MarkNode,
 } from '@lexical/mark';
-import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
-import {ClearEditorPlugin} from '@lexical/react/LexicalClearEditorPlugin';
 import {useCollaborationContext} from '@lexical/react/LexicalCollaborationContext';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {EditorRefPlugin} from '@lexical/react/LexicalEditorRefPlugin';
-import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
-import {PlainTextPlugin} from '@lexical/react/LexicalPlainTextPlugin';
-import {createDOMRange, createRectsFromDOMRange} from '@lexical/selection';
-import {$isRootTextContentEmpty, $rootTextContent} from '@lexical/text';
 import {mergeRegister, registerNestedElementResolver} from '@lexical/utils';
 import {
   $getNodeByKey,
@@ -50,7 +39,6 @@ import {
   COMMAND_PRIORITY_EDITOR,
   createCommand,
   getDOMSelection,
-  KEY_ESCAPE_COMMAND,
 } from 'lexical';
 import {
   useCallback,
@@ -60,7 +48,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import * as React from 'react';
 import {createPortal} from 'react-dom';
 
 import {
@@ -68,14 +55,15 @@ import {
   Comments,
   CommentStore,
   createComment,
-  createThread,
   Thread,
   useCommentStore,
 } from '../../commenting';
 import useModal from '../../hooks/useModal';
-import CommentEditorTheme from '../../themes/CommentEditorTheme';
 import Button from '../../ui/Button';
-import ContentEditable from '../../ui/ContentEditable';
+import {PlainTextEditor} from '../shared/ui/PlainTextEditor';
+import {CommentInputBox} from '../shared/ui/CommentInputBox';
+import {useOnChange} from '../shared/hooks/useOnChange';
+import {useCollabAuthorName} from '../shared/hooks/useCollabAuthorName';
 
 export const INSERT_INLINE_COMMAND: LexicalCommand<void> = createCommand(
   'INSERT_INLINE_COMMAND',
@@ -124,247 +112,6 @@ function AddCommentBox({
         onClick={onAddComment}>
         <i className="icon add-comment" />
       </button>
-    </div>
-  );
-}
-
-function EscapeHandlerPlugin({
-  onEscape,
-}: {
-  onEscape: (e: KeyboardEvent) => boolean;
-}): null {
-  const [editor] = useLexicalComposerContext();
-
-  useEffect(() => {
-    return editor.registerCommand(
-      KEY_ESCAPE_COMMAND,
-      (event: KeyboardEvent) => {
-        return onEscape(event);
-      },
-      2,
-    );
-  }, [editor, onEscape]);
-
-  return null;
-}
-
-function PlainTextEditor({
-  className,
-  autoFocus,
-  onEscape,
-  onChange,
-  editorRef,
-  placeholder = 'Type a comment...',
-}: {
-  autoFocus?: boolean;
-  className?: string;
-  editorRef?: {current: null | LexicalEditor};
-  onChange: (editorState: EditorState, editor: LexicalEditor) => void;
-  onEscape: (e: KeyboardEvent) => boolean;
-  placeholder?: string;
-}) {
-  const initialConfig = {
-    namespace: 'Commenting',
-    nodes: [],
-    onError: (error: Error) => {
-      throw error;
-    },
-    theme: CommentEditorTheme,
-  };
-
-  return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <div className="CommentPlugin_CommentInputBox_EditorContainer">
-        <PlainTextPlugin
-          contentEditable={
-            <ContentEditable placeholder={placeholder} className={className} />
-          }
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <OnChangePlugin onChange={onChange} />
-        <HistoryPlugin />
-        {autoFocus !== false && <AutoFocusPlugin />}
-        <EscapeHandlerPlugin onEscape={onEscape} />
-        <ClearEditorPlugin />
-        {editorRef !== undefined && <EditorRefPlugin editorRef={editorRef} />}
-      </div>
-    </LexicalComposer>
-  );
-}
-
-function useOnChange(
-  setContent: (text: string) => void,
-  setCanSubmit: (canSubmit: boolean) => void,
-) {
-  return useCallback(
-    (editorState: EditorState, _editor: LexicalEditor) => {
-      editorState.read(() => {
-        setContent($rootTextContent());
-        setCanSubmit(!$isRootTextContentEmpty(_editor.isComposing(), true));
-      });
-    },
-    [setCanSubmit, setContent],
-  );
-}
-
-function CommentInputBox({
-  editor,
-  cancelAddComment,
-  submitAddComment,
-}: {
-  cancelAddComment: () => void;
-  editor: LexicalEditor;
-  submitAddComment: (
-    commentOrThread: Comment | Thread,
-    isInlineComment: boolean,
-    thread?: Thread,
-    selection?: RangeSelection | null,
-  ) => void;
-}) {
-  const [content, setContent] = useState('');
-  const [canSubmit, setCanSubmit] = useState(false);
-  const boxRef = useRef<HTMLDivElement>(null);
-  const selectionState = useMemo(
-    () => ({
-      container: document.createElement('div'),
-      elements: [],
-    }),
-    [],
-  );
-  const selectionRef = useRef<RangeSelection | null>(null);
-  const author = useCollabAuthorName();
-
-  const updateLocation = useCallback(() => {
-    editor.getEditorState().read(() => {
-      const selection = $getSelection();
-
-      if ($isRangeSelection(selection)) {
-        selectionRef.current = selection.clone();
-        const anchor = selection.anchor;
-        const focus = selection.focus;
-        const range = createDOMRange(
-          editor,
-          anchor.getNode(),
-          anchor.offset,
-          focus.getNode(),
-          focus.offset,
-        );
-        const boxElem = boxRef.current;
-        if (range !== null && boxElem !== null) {
-          const {left, bottom, width} = range.getBoundingClientRect();
-          const selectionRects = createRectsFromDOMRange(editor, range);
-          let correctedLeft =
-            selectionRects.length === 1 ? left + width / 2 - 125 : left - 125;
-          if (correctedLeft < 10) {
-            correctedLeft = 10;
-          }
-          boxElem.style.left = `${correctedLeft}px`;
-          boxElem.style.top = `${
-            bottom +
-            20 +
-            (window.pageYOffset || document.documentElement.scrollTop)
-          }px`;
-          const selectionRectsLength = selectionRects.length;
-          const {container} = selectionState;
-          const elements: Array<HTMLSpanElement> = selectionState.elements;
-          const elementsLength = elements.length;
-
-          for (let i = 0; i < selectionRectsLength; i++) {
-            const selectionRect = selectionRects[i];
-            let elem: HTMLSpanElement = elements[i];
-            if (elem === undefined) {
-              elem = document.createElement('span');
-              elements[i] = elem;
-              container.appendChild(elem);
-            }
-            const color = '255, 212, 0';
-            const style = `position:absolute;top:${
-              selectionRect.top +
-              (window.pageYOffset || document.documentElement.scrollTop)
-            }px;left:${selectionRect.left}px;height:${
-              selectionRect.height
-            }px;width:${
-              selectionRect.width
-            }px;background-color:rgba(${color}, 0.3);pointer-events:none;z-index:5;`;
-            elem.style.cssText = style;
-          }
-          for (let i = elementsLength - 1; i >= selectionRectsLength; i--) {
-            const elem = elements[i];
-            container.removeChild(elem);
-            elements.pop();
-          }
-        }
-      }
-    });
-  }, [editor, selectionState]);
-
-  useLayoutEffect(() => {
-    updateLocation();
-    const container = selectionState.container;
-    const body = document.body;
-    if (body !== null) {
-      body.appendChild(container);
-      return () => {
-        body.removeChild(container);
-      };
-    }
-  }, [selectionState.container, updateLocation]);
-
-  useEffect(() => {
-    window.addEventListener('resize', updateLocation);
-
-    return () => {
-      window.removeEventListener('resize', updateLocation);
-    };
-  }, [updateLocation]);
-
-  const onEscape = (event: KeyboardEvent): boolean => {
-    event.preventDefault();
-    cancelAddComment();
-    return true;
-  };
-
-  const submitComment = () => {
-    if (canSubmit) {
-      let quote = editor.getEditorState().read(() => {
-        const selection = selectionRef.current;
-        return selection ? selection.getTextContent() : '';
-      });
-      if (quote.length > 100) {
-        quote = quote.slice(0, 99) + '…';
-      }
-      submitAddComment(
-        createThread(quote, [createComment(content, author)]),
-        true,
-        undefined,
-        selectionRef.current,
-      );
-      selectionRef.current = null;
-    }
-  };
-
-  const onChange = useOnChange(setContent, setCanSubmit);
-
-  return (
-    <div className="CommentPlugin_CommentInputBox" ref={boxRef}>
-      <PlainTextEditor
-        className="CommentPlugin_CommentInputBox_Editor"
-        onEscape={onEscape}
-        onChange={onChange}
-      />
-      <div className="CommentPlugin_CommentInputBox_Buttons">
-        <Button
-          onClick={cancelAddComment}
-          className="CommentPlugin_CommentInputBox_Button">
-          Cancel
-        </Button>
-        <Button
-          onClick={submitComment}
-          disabled={!canSubmit}
-          className="CommentPlugin_CommentInputBox_Button primary">
-          Comment
-        </Button>
-      </div>
     </div>
   );
 }
@@ -703,12 +450,6 @@ function CommentsPanel({
       )}
     </div>
   );
-}
-
-function useCollabAuthorName(): string {
-  const collabContext = useCollaborationContext();
-  const {yjsDocMap, name} = collabContext;
-  return yjsDocMap.has('comments') ? name : 'Playground User';
 }
 
 export default function CommentPlugin({
