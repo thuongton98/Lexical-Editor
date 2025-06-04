@@ -7,18 +7,14 @@ import {
 import {
   $applyNodeReplacement,
   $createRangeSelection,
-  $getNodeByKey,
-  $isElementNode,
-  $isTextNode,
   EditorConfig,
-  ElementNode,
   LexicalNode,
   NodeKey,
   RangeSelection,
   Spread,
 } from 'lexical';
-import {hexToRgba} from '../utils/colorHelpers';
 import {Comment, Thread} from '../commenting';
+import {hexToRgba} from '../utils/colorHelpers';
 
 export type SerializedCommentNode = Spread<
   {

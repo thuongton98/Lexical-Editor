@@ -26,6 +26,10 @@
   display: block;
 }
 
+.editor-container.readonly .delete-comment-btn {
+  display: none;
+}
+
 .delete-comment-btn {
   position: absolute;
   opacity: 0.3;

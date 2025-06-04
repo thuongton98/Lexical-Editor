@@ -150,9 +150,11 @@ export default function Editor(props: {
     };
   }, [isSmallWidthViewport]);
 
-  if (props.readOnly && !editor.getEditorState()._readOnly) {
-    editor.setEditable(false);
-  }
+  useEffect(() => {
+    if (props.readOnly && editor.isEditable()) {
+      editor.setEditable(false);
+    }
+  }, [props.readOnly]);
 
   return (
     <>
@@ -173,7 +175,7 @@ export default function Editor(props: {
       <div
         className={`editor-container ${showTreeView ? 'tree-view' : ''} ${
           !isRichText ? 'plain-text' : ''
-        }`}>
+        } ${editor.isEditable() ? 'readonly' : ''}`}>
         {isMaxLength && <MaxLengthPlugin maxLength={30} />}
         {!!props.onChange && <OnChangePlugin onChange={props.onChange} />}
         <DragDropPaste />
@@ -250,15 +252,17 @@ export default function Editor(props: {
                 />
               </>
             )}
-            {floatingAnchorElem && !isSmallWidthViewport && (
+            {floatingAnchorElem && (
               <>
                 <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
                 <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
                 <TableHoverActionsPlugin anchorElem={floatingAnchorElem} />
-                <FloatingTextFormatToolbarPlugin
-                  anchorElem={floatingAnchorElem}
-                  setIsLinkEditMode={setIsLinkEditMode}
-                />
+                {editor.isEditable() && (
+                  <FloatingTextFormatToolbarPlugin
+                    anchorElem={floatingAnchorElem}
+                    setIsLinkEditMode={setIsLinkEditMode}
+                  />
+                )}
               </>
             )}
           </>

@@ -303,16 +303,16 @@ function TextFormatFloatingToolbar({
             aria-label="Insert link">
             <i className="format link" />
           </button>
+          <button
+            type="button"
+            onClick={insertComment}
+            className={'popup-item spaced insert-comment'}
+            title="Insert comment"
+            aria-label="Insert comment">
+            <i className="format add-comment" />
+          </button>
         </>
       )}
-      <button
-        type="button"
-        onClick={insertComment}
-        className={'popup-item spaced insert-comment'}
-        title="Insert comment"
-        aria-label="Insert comment">
-        <i className="format add-comment" />
-      </button>
     </div>
   );
 }

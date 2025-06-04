@@ -396,7 +396,7 @@ function ReadonlyAction() {
       onClick={() => {
         // Send latest editor state to commenting validation server
         if (isEditable) {
-          sendEditorState(editor);
+          // sendEditorState(editor);
         }
         editor.setEditable(!editor.isEditable());
       }}
