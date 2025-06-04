@@ -6,13 +6,13 @@
  *
  */
 
-import { $createLinkNode } from '@lexical/link';
-import { $createListItemNode, $createListNode } from '@lexical/list';
+import {$createLinkNode} from '@lexical/link';
+import {$createListItemNode, $createListNode} from '@lexical/list';
 import {
   InitialEditorStateType,
   LexicalComposer,
 } from '@lexical/react/LexicalComposer';
-import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
+import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
 import {
   $createParagraphNode,
   $createTextNode,
@@ -22,26 +22,24 @@ import {
   EditorThemeClasses,
   TextNode,
 } from 'lexical';
-import { merge } from 'lodash-es';
-import { type JSX } from 'react';
+import {merge, replace} from 'lodash-es';
+import {type JSX} from 'react';
 
-import { isDevPlayground, Settings as SettingType } from './appSettings';
-import { FlashMessageContext } from './context/FlashMessageContext';
-import { SettingsContext, useSettings } from './context/SettingsContext';
-import { SharedHistoryContext } from './context/SharedHistoryContext';
-import { ToolbarContext } from './context/ToolbarContext';
-import Editor, { OnEditorStateChangeCallback } from './Editor';
+import {Settings as SettingType} from './appSettings';
+import {
+  ActionsBtnDisplayState,
+  ActionsDisplayStateContext,
+} from './context/ActionsContext';
+import {FlashMessageContext} from './context/FlashMessageContext';
+import {SettingsContext, useSettings} from './context/SettingsContext';
+import {SharedHistoryContext} from './context/SharedHistoryContext';
+import {ToolbarContext} from './context/ToolbarContext';
+import Editor, {OnEditorStateChangeCallback} from './Editor';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
-import DocsPlugin from './plugins/DocsPlugin';
-import PasteLogPlugin from './plugins/PasteLogPlugin';
-import { TableContext } from './plugins/TablePlugin';
-import TestRecorderPlugin from './plugins/TestRecorderPlugin';
-import { parseAllowedFontSize } from './plugins/ToolbarPlugin/fontSize';
-import TypingPerfPlugin from './plugins/TypingPerfPlugin';
-import Settings from './Settings';
+import {TableContext} from './plugins/TablePlugin';
+import {parseAllowedFontSize} from './plugins/ToolbarPlugin/fontSize';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
-import { parseAllowedColor } from './ui/ColorPicker';
-import { ActionsBtnDisplayState, ActionsDisplayStateContext } from './context/ActionsContext';
+import {parseAllowedColor} from './ui/ColorPicker';
 
 console.warn(
   'If you are profiling the playground app, please ensure you turn off the debug view. You can disable it by pressing on the settings control in the bottom-left of your screen and toggling the debug view setting.',
@@ -237,7 +235,9 @@ export function App(props: EditorProps): JSX.Element {
   );
 }
 
-export type PlayGroundAppProps = Partial<SettingType> & {actionsDisplayState?: ActionsBtnDisplayState} & EditorProps;
+export type PlayGroundAppProps = Partial<SettingType> & {
+  actionsDisplayState?: ActionsBtnDisplayState;
+} & EditorProps;
 
 export default function PlaygroundApp({
   onChange,

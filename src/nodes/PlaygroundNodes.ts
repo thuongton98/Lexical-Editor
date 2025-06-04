@@ -6,7 +6,7 @@
  *
  */
 
-import type {Klass, LexicalNode} from 'lexical';
+import type {Klass, KlassConstructor, LexicalNode} from 'lexical';
 
 import {CodeHighlightNode, CodeNode} from '@lexical/code';
 import {HashtagNode} from '@lexical/hashtag';
@@ -38,8 +38,9 @@ import {SpecialTextNode} from './SpecialTextNode';
 import {StickyNode} from './StickyNode';
 import {TweetNode} from './TweetNode';
 import {YouTubeNode} from './YouTubeNode';
+import {$createCommentNode, CommentNode} from './CommentNode';
 
-const PlaygroundNodes: Array<Klass<LexicalNode>> = [
+const PlaygroundNodes: KlassConstructor<typeof LexicalNode>[] = [
   HeadingNode,
   ListNode,
   ListItemNode,
@@ -75,6 +76,15 @@ const PlaygroundNodes: Array<Klass<LexicalNode>> = [
   LayoutContainerNode,
   LayoutItemNode,
   SpecialTextNode,
+  CommentNode,
+  {
+    // @ts-ignore
+    replace: MarkNode,
+    with: (node: MarkNode) => {
+      return $createCommentNode(node.getIDs(), '');
+    },
+    withKlass: CommentNode,
+  },
 ];
 
 export default PlaygroundNodes;

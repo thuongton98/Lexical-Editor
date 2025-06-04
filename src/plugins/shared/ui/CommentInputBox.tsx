@@ -23,6 +23,7 @@ import Button from '../../../ui/Button';
 import {PlainTextEditor} from './PlainTextEditor';
 import {useOnChange} from '../hooks/useOnChange';
 import {useCollabAuthorName} from '../hooks/useCollabAuthorName';
+import ColorPicker, {ColorPickerMode} from '../../../ui/ColorPicker';
 
 export function CommentInputBox({
   editor,
@@ -36,10 +37,12 @@ export function CommentInputBox({
     isInlineComment: boolean,
     thread?: Thread,
     selection?: RangeSelection | null,
+    pickedColor?: string,
   ) => void;
 }) {
   const [content, setContent] = useState('');
   const [canSubmit, setCanSubmit] = useState(false);
+  const [color, setColor] = useState<string>('#f8e71c');
   const boxRef = useRef<HTMLDivElement>(null);
   const selectionState = useMemo(
     () => ({
@@ -155,6 +158,7 @@ export function CommentInputBox({
         true,
         undefined,
         selectionRef.current,
+        color,
       );
       selectionRef.current = null;
     }
@@ -168,6 +172,11 @@ export function CommentInputBox({
         className="CommentPlugin_CommentInputBox_Editor"
         onEscape={onEscape}
         onChange={onChange}
+      />
+      <ColorPicker
+        color={color}
+        onChange={setColor}
+        displayParts={[ColorPickerMode.PALLETE]}
       />
       <div className="CommentPlugin_CommentInputBox_Buttons">
         <Button

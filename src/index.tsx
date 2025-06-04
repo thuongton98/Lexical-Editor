@@ -9,11 +9,11 @@
 // setupEnv must load before App because lexical computes CAN_USE_BEFORE_INPUT
 // at import time (disableBeforeInput is used to test legacy events)
 // eslint-disable-next-line simple-import-sort/imports
-import setupEnv from "./setupEnv";
-import { Editor } from "./main";
+import setupEnv from './setupEnv';
+import {Editor} from './main';
 
-import * as React from "react";
-import { createRoot } from "react-dom/client";
+import * as React from 'react';
+import {createRoot} from 'react-dom/client';
 
 if (setupEnv.disableBeforeInput) {
   // vite is really aggressive about tree-shaking, this
@@ -22,7 +22,7 @@ if (setupEnv.disableBeforeInput) {
 
 // Handle runtime errors
 const showErrorOverlay = (err: Event) => {
-  const ErrorOverlay = customElements.get("vite-error-overlay");
+  const ErrorOverlay = customElements.get('vite-error-overlay');
   if (!ErrorOverlay) {
     return;
   }
@@ -32,16 +32,13 @@ const showErrorOverlay = (err: Event) => {
     body.appendChild(overlay);
   }
 };
-window.addEventListener("error", showErrorOverlay);
-window.addEventListener("unhandledrejection", ({ reason }) =>
-  showErrorOverlay(reason)
+window.addEventListener('error', showErrorOverlay);
+window.addEventListener('unhandledrejection', ({reason}) =>
+  showErrorOverlay(reason),
 );
 
-createRoot(document.getElementById("root") as HTMLElement).render(
+createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Editor
-      showTreeView={false}
-      actionsDisplayState={{ importAction: false, shareAction: false }}
-    />
-  </React.StrictMode>
+    <Editor showTreeView={false} actionsDisplayState={{shareAction: false}} />
+  </React.StrictMode>,
 );

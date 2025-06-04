@@ -40,7 +40,7 @@ i.add-comment {
   height: 20px;
   width: 20px;
   vertical-align: -10px;
-  background-image: url(../../images/icons/chat-left-text.svg);
+  background-image: url(./images/icons/chat-left-text.svg);
 }
 
 @media (max-width: 600px) {

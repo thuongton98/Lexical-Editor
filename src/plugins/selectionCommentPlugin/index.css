@@ -1,0 +1,53 @@
+.comment-container {
+  position: relative;
+}
+
+.comment-box-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+}
+
+.comment-box {
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: none;
+  z-index: 999;
+  max-width: 200px;
+  width: max-content;
+  max-height: 250px;
+  overflow: auto;
+  backdrop-filter: contrast(0.7);
+}
+
+.comment-container:hover .comment-box {
+  display: block;
+}
+
+.delete-comment-btn {
+  position: absolute;
+  opacity: 0.3;
+  top: 2px;
+  right: 2px;
+  padding: 3px;
+  border-radius: 3px;
+  border: unset;
+  background-color: unset;
+  cursor: pointer;
+  background-color: rgb(234, 98, 114);
+}
+
+.delete-comment-btn:hover {
+  background-color: rgb(233, 55, 55);
+  opacity: 0.8;
+}
+
+.delete-comment-btn i {
+  background-size: contain;
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  vertical-align: -0.25em;
+}

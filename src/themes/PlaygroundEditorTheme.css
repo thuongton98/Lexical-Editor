@@ -552,6 +552,7 @@
   color: #dd4a68;
 }
 .PlaygroundEditorTheme__mark {
+  /* --highlight-color:; */
   background: rgba(255, 212, 0, 0.14);
   border-bottom: 2px solid rgba(255, 212, 0, 0.3);
   padding-bottom: 2px;

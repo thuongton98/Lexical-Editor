@@ -22,7 +22,6 @@ import {Dispatch, useEffect} from 'react';
 
 import {useToolbarState} from '../../context/ToolbarContext';
 import {sanitizeUrl} from '../../utils/url';
-import {INSERT_INLINE_COMMAND} from '../CommentPlugin';
 import {
   clearFormatting,
   formatBulletList,
@@ -62,6 +61,7 @@ import {
   isSuperscript,
   isUppercase,
 } from './shortcuts';
+import {INSERT_INLINE_COMMAND} from '../shared/hooks/useCommentInputBox';
 
 export default function ShortcutsPlugin({
   editor,
