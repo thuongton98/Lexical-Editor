@@ -39,6 +39,10 @@ window.addEventListener('unhandledrejection', ({reason}) =>
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Editor showTreeView={false} actionsDisplayState={{shareAction: false}} />
+    <Editor
+      readOnly
+      showTreeView={false}
+      actionsDisplayState={{shareAction: false}}
+    />
   </React.StrictMode>,
 );

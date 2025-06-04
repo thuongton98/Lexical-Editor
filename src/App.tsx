@@ -195,6 +195,7 @@ type EditorProps = {
   initialState?: InitialEditorStateType;
   theme?: EditorThemeClasses;
   hideToolbar?: boolean;
+  readOnly?: boolean;
 };
 
 export function App(props: EditorProps): JSX.Element {
@@ -222,6 +223,7 @@ export function App(props: EditorProps): JSX.Element {
           <ToolbarContext>
             <div className="editor-shell">
               <Editor
+                readOnly={props.readOnly}
                 hideToolbar={props.hideToolbar}
                 onChange={props.onChange}
               />
@@ -248,12 +250,14 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
     props;
 
   const hideToolbar = 'hideToolbar' in props && props.hideToolbar !== false;
+  const readOnly = 'readOnly' in props && props.readOnly !== false;
 
   return (
     <SettingsContext settingProps={settings}>
       <FlashMessageContext>
         <ActionsDisplayStateContext settingProps={actionsDisplayState}>
           <App
+            readOnly={readOnly}
             hideToolbar={hideToolbar}
             initialState={initialState}
             theme={theme}

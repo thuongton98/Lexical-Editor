@@ -89,6 +89,7 @@ export type OnEditorStateChangeCallback = Parameters<
 export default function Editor(props: {
   onChange?: OnEditorStateChangeCallback;
   hideToolbar?: boolean;
+  readOnly?: boolean;
 }): JSX.Element {
   const {historyState} = useSharedHistoryContext();
   const {
@@ -148,6 +149,10 @@ export default function Editor(props: {
       window.removeEventListener('resize', updateViewPortWidth);
     };
   }, [isSmallWidthViewport]);
+
+  if (props.readOnly && !editor.getEditorState()._readOnly) {
+    editor.setEditable(false);
+  }
 
   return (
     <>

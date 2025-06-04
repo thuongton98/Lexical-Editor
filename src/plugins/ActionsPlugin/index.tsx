@@ -6,25 +6,25 @@
  *
  */
 
-import type { LexicalEditor } from "lexical";
-import type { JSX } from "react";
+import type {LexicalEditor} from 'lexical';
+import type {JSX} from 'react';
 
-import { $createCodeNode, $isCodeNode } from "@lexical/code";
+import {$createCodeNode, $isCodeNode} from '@lexical/code';
 import {
   editorStateFromSerializedDocument,
   exportFile,
   importFile,
   SerializedDocument,
   serializedDocumentFromEditorState,
-} from "@lexical/file";
+} from '@lexical/file';
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
-} from "@lexical/markdown";
-import { useCollaborationContext } from "@lexical/react/LexicalCollaborationContext";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { mergeRegister } from "@lexical/utils";
-import { CONNECTED_COMMAND, TOGGLE_CONNECT_COMMAND } from "@lexical/yjs";
+} from '@lexical/markdown';
+import {useCollaborationContext} from '@lexical/react/LexicalCollaborationContext';
+import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import {mergeRegister} from '@lexical/utils';
+import {CONNECTED_COMMAND, TOGGLE_CONNECT_COMMAND} from '@lexical/yjs';
 import {
   $createTextNode,
   $getRoot,
@@ -34,31 +34,31 @@ import {
   COLLABORATION_TAG,
   COMMAND_PRIORITY_EDITOR,
   HISTORIC_TAG,
-} from "lexical";
-import { useCallback, useEffect, useState } from "react";
+} from 'lexical';
+import {useCallback, useEffect, useState} from 'react';
 
-import { INITIAL_SETTINGS } from "../../appSettings";
-import useFlashMessage from "../../hooks/useFlashMessage";
-import useModal from "../../hooks/useModal";
-import Button from "../../ui/Button";
-import { docFromHash, docToHash } from "../../utils/docSerialization";
-import { PLAYGROUND_TRANSFORMERS } from "../MarkdownTransformers";
+import {INITIAL_SETTINGS} from '../../appSettings';
+import useFlashMessage from '../../hooks/useFlashMessage';
+import useModal from '../../hooks/useModal';
+import Button from '../../ui/Button';
+import {docFromHash, docToHash} from '../../utils/docSerialization';
+import {PLAYGROUND_TRANSFORMERS} from '../MarkdownTransformers';
 import {
   SPEECH_TO_TEXT_COMMAND,
   SUPPORT_SPEECH_RECOGNITION,
-} from "../SpeechToTextPlugin";
-import { useActionsState } from "../../context/ActionsContext";
+} from '../SpeechToTextPlugin';
+import {useActionsState} from '../../context/ActionsContext';
 
 async function sendEditorState(editor: LexicalEditor): Promise<void> {
   const stringifiedEditorState = JSON.stringify(editor.getEditorState());
   try {
-    await fetch("http://localhost:1235/setEditorState", {
+    await fetch('http://localhost:1235/setEditorState', {
       body: stringifiedEditorState,
       headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
+        Accept: 'application/json',
+        'Content-type': 'application/json',
       },
-      method: "POST",
+      method: 'POST',
     });
   } catch {
     // NO-OP
@@ -69,20 +69,20 @@ async function validateEditorState(editor: LexicalEditor): Promise<void> {
   const stringifiedEditorState = JSON.stringify(editor.getEditorState());
   let response = null;
   try {
-    response = await fetch("http://localhost:1235/validateEditorState", {
+    response = await fetch('http://localhost:1235/validateEditorState', {
       body: stringifiedEditorState,
       headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
+        Accept: 'application/json',
+        'Content-type': 'application/json',
       },
-      method: "POST",
+      method: 'POST',
     });
   } catch {
     // NO-OP
   }
   if (response !== null && response.status === 403) {
     throw new Error(
-      "Editor state validation failed! Server did not accept changes."
+      'Editor state validation failed! Server did not accept changes.',
     );
   }
 }
@@ -91,7 +91,7 @@ async function shareDoc(doc: SerializedDocument): Promise<void> {
   const url = new URL(window.location.toString());
   url.hash = await docToHash(doc);
   const newUrl = url.toString();
-  window.history.replaceState({}, "", newUrl);
+  window.history.replaceState({}, '', newUrl);
   await window.navigator.clipboard.writeText(newUrl);
 }
 
@@ -108,13 +108,13 @@ export default function ActionsPlugin({
   const [connected, setConnected] = useState(false);
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
   const [modal] = useModal();
-  const { isCollabActive } = useCollaborationContext();
+  const {isCollabActive} = useCollaborationContext();
   useEffect(() => {
     if (INITIAL_SETTINGS.isCollab) {
       return;
     }
     docFromHash(window.location.hash).then((doc) => {
-      if (doc && doc.source === "Playground") {
+      if (doc && doc.source === 'Playground') {
         editor.setEditorState(editorStateFromSerializedDocument(editor, doc));
         editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined);
       }
@@ -132,14 +132,14 @@ export default function ActionsPlugin({
           setConnected(isConnected);
           return false;
         },
-        COMMAND_PRIORITY_EDITOR
-      )
+        COMMAND_PRIORITY_EDITOR,
+      ),
     );
   }, [editor]);
 
   useEffect(() => {
     return editor.registerUpdateListener(
-      ({ dirtyElements, prevEditorState, tags }) => {
+      ({dirtyElements, prevEditorState, tags}) => {
         // If we are in read only mode, send the editor state
         // to server and ask for validation if possible.
         if (
@@ -165,7 +165,7 @@ export default function ActionsPlugin({
             }
           }
         });
-      }
+      },
     );
   }, [editor, isEditable]);
 
@@ -191,13 +191,12 @@ export default function ActionsPlugin({
             editor.dispatchCommand(TOGGLE_CONNECT_COMMAND, !connected);
           }}
           title={`${
-            connected ? "Disconnect" : "Connect"
+            connected ? 'Disconnect' : 'Connect'
           } Collaborative Editing`}
           aria-label={`${
-            connected ? "Disconnect from" : "Connect to"
-          } a collaborative editing server`}
-        >
-          <i className={connected ? "disconnect" : "connect"} />
+            connected ? 'Disconnect from' : 'Connect to'
+          } a collaborative editing server`}>
+          <i className={connected ? 'disconnect' : 'connect'} />
         </button>
       )}
       {modal}
@@ -221,16 +220,14 @@ function ShowClearDialog({
             editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
             editor.focus();
             onClose();
-          }}
-        >
+          }}>
           Clear
-        </Button>{" "}
+        </Button>{' '}
         <Button
           onClick={() => {
             editor.focus();
             onClose();
-          }}
-        >
+          }}>
           Cancel
         </Button>
       </div>
@@ -249,20 +246,20 @@ function MarkdownAction({
     editor.update(() => {
       const root = $getRoot();
       const firstChild = root.getFirstChild();
-      if ($isCodeNode(firstChild) && firstChild.getLanguage() === "markdown") {
+      if ($isCodeNode(firstChild) && firstChild.getLanguage() === 'markdown') {
         $convertFromMarkdownString(
           firstChild.getTextContent(),
           PLAYGROUND_TRANSFORMERS,
           undefined, // node
-          shouldPreserveNewLinesInMarkdown
+          shouldPreserveNewLinesInMarkdown,
         );
       } else {
         const markdown = $convertToMarkdownString(
           PLAYGROUND_TRANSFORMERS,
           undefined, //node
-          shouldPreserveNewLinesInMarkdown
+          shouldPreserveNewLinesInMarkdown,
         );
-        const codeNode = $createCodeNode("markdown");
+        const codeNode = $createCodeNode('markdown');
         codeNode.append($createTextNode(markdown));
         root.clear().append(codeNode);
         if (markdown.length === 0) {
@@ -277,8 +274,7 @@ function MarkdownAction({
       className="action-button"
       onClick={handleMarkdownToggle}
       title="Convert From Markdown"
-      aria-label="Convert from markdown"
-    >
+      aria-label="Convert from markdown">
       <i className="markdown" />
     </button>
   );
@@ -297,12 +293,13 @@ function SpeechAction() {
             setIsSpeechToText(!isSpeechToText);
           }}
           className={
-            "action-button action-button-mic " +
-            (isSpeechToText ? "active" : "")
+            'action-button action-button-mic ' +
+            (isSpeechToText ? 'active' : '')
           }
           title="Speech To Text"
-          aria-label={`${isSpeechToText ? "Enable" : "Disable"} speech to text`}
-        >
+          aria-label={`${
+            isSpeechToText ? 'Enable' : 'Disable'
+          } speech to text`}>
           <i className="mic" />
         </button>
       )}
@@ -318,8 +315,7 @@ function ImportAction() {
       className="action-button import"
       onClick={() => importFile(editor)}
       title="Import"
-      aria-label="Import editor state from JSON"
-    >
+      aria-label="Import editor state from JSON">
       <i className="import" />
     </button>
   );
@@ -334,12 +330,11 @@ function ExportAction() {
       onClick={() =>
         exportFile(editor, {
           fileName: `Playground ${new Date().toISOString()}`,
-          source: "Playground",
+          source: 'Playground',
         })
       }
       title="Export"
-      aria-label="Export editor state to JSON"
-    >
+      aria-label="Export editor state to JSON">
       <i className="export" />
     </button>
   );
@@ -347,7 +342,7 @@ function ExportAction() {
 
 function ShareAction() {
   const [editor] = useLexicalComposerContext();
-  const { isCollabActive } = useCollaborationContext();
+  const {isCollabActive} = useCollaborationContext();
   const showFlashMessage = useFlashMessage();
 
   return (
@@ -357,22 +352,21 @@ function ShareAction() {
       onClick={() =>
         shareDoc(
           serializedDocumentFromEditorState(editor.getEditorState(), {
-            source: "Playground",
-          })
+            source: 'Playground',
+          }),
         ).then(
-          () => showFlashMessage("URL copied to clipboard"),
-          () => showFlashMessage("URL could not be copied to clipboard")
+          () => showFlashMessage('URL copied to clipboard'),
+          () => showFlashMessage('URL could not be copied to clipboard'),
         )
       }
       title="Share"
-      aria-label="Share Playground link to current editor state"
-    >
+      aria-label="Share Playground link to current editor state">
       <i className="share" />
     </button>
   );
 }
 
-function ClearAction({ isEditorEmpty }: { isEditorEmpty: boolean }) {
+function ClearAction({isEditorEmpty}: {isEditorEmpty: boolean}) {
   const [editor] = useLexicalComposerContext();
   const [_, showModal] = useModal();
 
@@ -381,13 +375,12 @@ function ClearAction({ isEditorEmpty }: { isEditorEmpty: boolean }) {
       className="action-button clear"
       disabled={isEditorEmpty}
       onClick={() => {
-        showModal("Clear editor", (onClose) => (
+        showModal('Clear editor', (onClose) => (
           <ShowClearDialog editor={editor} onClose={onClose} />
         ));
       }}
       title="Clear"
-      aria-label="Clear editor contents"
-    >
+      aria-label="Clear editor contents">
       <i className="clear" />
     </button>
   );
@@ -399,7 +392,7 @@ function ReadonlyAction() {
 
   return (
     <button
-      className={`action-button ${!isEditable ? "unlock" : "lock"}`}
+      className={`action-button ${!isEditable ? 'unlock' : 'lock'}`}
       onClick={() => {
         // Send latest editor state to commenting validation server
         if (isEditable) {
@@ -408,9 +401,8 @@ function ReadonlyAction() {
         editor.setEditable(!editor.isEditable());
       }}
       title="Read-Only Mode"
-      aria-label={`${!isEditable ? "Unlock" : "Lock"} read-only mode`}
-    >
-      <i className={!isEditable ? "lock" : "unlock"} />
+      aria-label={`${!isEditable ? 'Unlock' : 'Lock'} read-only mode`}>
+      <i className={!isEditable ? 'lock' : 'unlock'} />
     </button>
   );
 }
