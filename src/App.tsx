@@ -194,6 +194,7 @@ type EditorProps = {
   onChange?: OnEditorStateChangeCallback;
   initialState?: InitialEditorStateType;
   theme?: EditorThemeClasses;
+  hideToolbar?: boolean;
 };
 
 export function App(props: EditorProps): JSX.Element {
@@ -220,7 +221,10 @@ export function App(props: EditorProps): JSX.Element {
         <TableContext>
           <ToolbarContext>
             <div className="editor-shell">
-              <Editor onChange={props.onChange} />
+              <Editor
+                hideToolbar={props.hideToolbar}
+                onChange={props.onChange}
+              />
             </div>
             {/* {isDevPlayground && <Settings />}
             {isDevPlayground ? <DocsPlugin /> : null}
@@ -239,18 +243,22 @@ export type PlayGroundAppProps = Partial<SettingType> & {
   actionsDisplayState?: ActionsBtnDisplayState;
 } & EditorProps;
 
-export default function PlaygroundApp({
-  onChange,
-  initialState,
-  theme,
-  actionsDisplayState,
-  ...settings
-}: PlayGroundAppProps): JSX.Element {
+export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
+  const {onChange, initialState, theme, actionsDisplayState, ...settings} =
+    props;
+
+  const hideToolbar = 'hideToolbar' in props && props.hideToolbar !== false;
+
   return (
     <SettingsContext settingProps={settings}>
       <FlashMessageContext>
         <ActionsDisplayStateContext settingProps={actionsDisplayState}>
-          <App initialState={initialState} theme={theme} onChange={onChange} />
+          <App
+            hideToolbar={hideToolbar}
+            initialState={initialState}
+            theme={theme}
+            onChange={onChange}
+          />
         </ActionsDisplayStateContext>
       </FlashMessageContext>
     </SettingsContext>

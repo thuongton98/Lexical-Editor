@@ -88,6 +88,7 @@ export type OnEditorStateChangeCallback = Parameters<
 
 export default function Editor(props: {
   onChange?: OnEditorStateChangeCallback;
+  hideToolbar?: boolean;
 }): JSX.Element {
   const {historyState} = useSharedHistoryContext();
   const {
@@ -150,7 +151,7 @@ export default function Editor(props: {
 
   return (
     <>
-      {isRichText && (
+      {isRichText && !props.hideToolbar && (
         <ToolbarPlugin
           editor={editor}
           activeEditor={activeEditor}
