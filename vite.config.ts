@@ -14,14 +14,20 @@ import dts from 'vite-plugin-dts';
 import viteCopyEsm from './viteCopyEsm';
 import viteCopyExcalidrawAssets from './viteCopyExcalidrawAssets';
 import commonjs from '@rollup/plugin-commonjs';
+import {visualizer} from 'rollup-plugin-visualizer';
 
 const externalPackages = [
   'react',
   'react-dom',
   'katex',
   'prettier',
+  'prettier-plugin-hermes-parser',
+  'prettier-plugin-organize-attributes',
+  'prettier-plugin-tailwindcss',
   'yjs',
   'y-websocket',
+  'hermes-estree',
+  '@excalidraw/excalidraw',
   'lexical',
   '@lexical/clipboard',
   '@lexical/code',
@@ -44,9 +50,14 @@ const globals = {
   'react-dom': 'ReactDOM',
   katex: 'katex',
   prettier: 'prettier',
+  'prettier-plugin-hermes-parser': 'prettierPluginHermesParser',
+  'prettier-plugin-organize-attributes': 'prettierPluginOrganizeAttributes',
+  'prettier-plugin-tailwindcss': 'prettierPluginTailwindCSS',
   yjs: 'Y',
   'y-websocket': 'WebsocketProvider',
   lexical: 'Lexical',
+  'hermes-estree': 'hermesEStree',
+  '@excalidraw/excalidraw': 'Excalidraw',
   '@lexical/clipboard': 'LexicalClipboard',
   '@lexical/code': 'LexicalCode',
   '@lexical/file': 'LexicalFile',
@@ -65,12 +76,13 @@ const globals = {
 
 export default defineConfig(({mode}) => ({
   build: {
+    outDir: 'dist/build',
     cssCodeSplit: true,
     ...(mode === 'production' && {
       lib: {
         entry: path.resolve(__dirname, 'src/main.ts'),
         fileName: (format) => `index.${format}.js`,
-        formats: ['es','umd'],
+        formats: ['es'],
         name: 'LexicalPlayground',
       },
       minify: 'terser',
@@ -82,8 +94,8 @@ export default defineConfig(({mode}) => ({
       },
     }),
     rollupOptions: {
-      input:'./src/main.ts',
-      external:externalPackages,
+      input: './src/main.ts',
+      external: externalPackages,
       output: {
         globals,
       },
@@ -98,16 +110,16 @@ export default defineConfig(({mode}) => ({
   },
   plugins: [
     babel({
-      babelHelpers: "bundled",
+      babelHelpers: 'bundled',
       babelrc: false,
       configFile: false,
-      exclude: "**/node_modules/**",
-      extensions: ["jsx", "js", "ts", "tsx", "mjs"],
+      exclude: '**/node_modules/**',
+      extensions: ['jsx', 'js', 'ts', 'tsx', 'mjs'],
       plugins: [
-        "@babel/plugin-transform-flow-strip-types",
-        ...(mode !== "production" ? [] : []),
+        '@babel/plugin-transform-flow-strip-types',
+        ...(mode !== 'production' ? [] : []),
       ],
-      presets: [["@babel/preset-react", { runtime: "automatic" }]],
+      presets: [['@babel/preset-react', {runtime: 'automatic'}]],
     }),
     ,
     react(),
@@ -119,6 +131,7 @@ export default defineConfig(({mode}) => ({
       // because @rollup/plugin-commonjs does not analyze it correctly
       strictRequires: [/\/node_modules\/(react-dom|react)\/[^/]\.js$/],
     }),
+    visualizer(),
   ],
   resolve: {
     preserveSymlinks: true,
