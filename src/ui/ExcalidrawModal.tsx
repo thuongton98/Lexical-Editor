@@ -6,6 +6,8 @@
  *
  */
 
+import './ExcalidrawModal.css';
+
 import type {
   AppState,
   BinaryFiles,
@@ -13,12 +15,14 @@ import type {
   ExcalidrawInitialDataState,
 } from '@excalidraw/excalidraw/dist/types/excalidraw/types';
 import type {JSX} from 'react';
-
-import './ExcalidrawModal.css';
-
-import {Excalidraw} from '@excalidraw/excalidraw';
-import {isDOMNode} from 'lexical';
 import * as React from 'react';
+
+const Excalidraw = React.lazy(async () => {
+  const {Excalidraw} = await import('@excalidraw/excalidraw');
+
+  return {default: Excalidraw};
+});
+import {isDOMNode} from 'lexical';
 import {ReactPortal, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
 
@@ -227,15 +231,17 @@ export default function ExcalidrawModal({
         tabIndex={-1}>
         <div className="ExcalidrawModal__row">
           {discardModalOpen && <ShowDiscardDialog />}
-          <Excalidraw
-            onChange={onChange}
-            excalidrawAPI={excalidrawAPIRefCallback}
-            initialData={{
-              appState: initialAppState || {isLoading: false},
-              elements: initialElements,
-              files: initialFiles,
-            }}
-          />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Excalidraw
+              onChange={onChange}
+              excalidrawAPI={excalidrawAPIRefCallback}
+              initialData={{
+                appState: initialAppState || {isLoading: false},
+                elements: initialElements,
+                files: initialFiles,
+              }}
+            />
+          </React.Suspense>
           <div className="ExcalidrawModal__actions">
             <button className="action-button" onClick={discard}>
               Discard

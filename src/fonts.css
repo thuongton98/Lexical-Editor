@@ -1,0 +1,27 @@
+@font-face {
+  font-family: monospace;
+  src: url(../assets/fonts/Anonymous_Pro.ttf);
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: monospace;
+  src: url(../assets/fonts/Anonymous_Pro_B.ttf);
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: monospace;
+  src: url(../assets/fonts/Anonymous_Pro_BI.ttf);
+  font-style: italic;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: monospace;
+  src: url(../assets/fonts/Anonymous_Pro_I.ttf);
+  font-style: italic;
+  font-weight: normal;
+}
