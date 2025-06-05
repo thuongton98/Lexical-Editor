@@ -3,6 +3,10 @@
 A beautifully crafted, fully-featured rich text editor component extracted from the official [Lexical Playground](https://github.com/facebook/lexical) by Meta. This package wraps the Lexical demo editor into a standalone, reusable React component that can be easily integrated into your applications.
 
 ---
+## Version
+This package is based on `0.31.2` version of the actual `lexical-playground`.
+
+---
 
 ## ✨ Features
 
@@ -13,6 +17,14 @@ A beautifully crafted, fully-featured rich text editor component extracted from 
 - 🧱 Plugin architecture: Youtube video, Links, Code, Comment, Drag & Drops, Image editor with Exclidraw, Emoji, Equation, Image, Markdown, Mention, Page Break, Table, Sticker, Twitter, ...
 ---
 
+## 📦 Installation
+
+```bash
+npm install lexical-playground-editor
+# or
+yarn add lexical-playground-editor
+```
+---
 ## Usage
 
 ```ts
@@ -29,9 +41,4 @@ function MyComponent (){
 }
 ```
 
-## 📦 Installation
 
-```bash
-npm install lexical-playground-editor
-# or
-yarn add lexical-playground-editor
