@@ -1,5 +1,5 @@
 {
-  "name": "lexical-playground",
+  "name": "@pourianof/lexical-playground",
   "version": "1.0.0",
   "description": "Based on 0.31.2",
   "main": "build/index.cjs.js",
