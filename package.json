@@ -1,15 +1,15 @@
 {
   "name": "lexical-playground",
   "version": "0.31.2",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.es.js",
-  "types": "dist/main.d.ts",
+  "main": "build/index.cjs.js",
+  "module": "build/index.es.js",
+  "types": "build/main.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js",
-      "types": "./dist/index.d.ts"
+      "import": "./build/index.es.js",
+      "require": "./build/index.cjs.js",
+      "types": "./build/index.d.ts"
     }
   },
   "repository": {
