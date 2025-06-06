@@ -76,6 +76,7 @@ const globals = {
 
 export default defineConfig(({mode}) => ({
   build: {
+    cssCodeSplit: true,
     outDir: 'dist/build',
     ...(mode === 'production' && {
       lib: {

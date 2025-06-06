@@ -1,20 +1,13 @@
 {
   "name": "@pourianof/lexical-playground",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "Based on 0.31.2",
-  "main": "./build/index.cjs.js",
+  "main": "./build/index.es.js",
   "module": "./build/index.es.js",
   "types": "./build/main.d.ts",
   "type": "module",
   "readme": "./README.md",
   "license": "MIT",
-  "exports": {
-    ".": {
-      "import": "./build/index.es.js",
-      "require": "./build/index.cjs.js",
-      "types": "./build/main.d.ts"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Pourianof/lexical-playground"
@@ -94,7 +87,7 @@
     "yjs": ">=13.5.42"
   },
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   }
 }
