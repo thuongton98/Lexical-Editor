@@ -77,7 +77,6 @@ const globals = {
 export default defineConfig(({mode}) => ({
   build: {
     outDir: 'dist/build',
-    cssCodeSplit: true,
     ...(mode === 'production' && {
       lib: {
         entry: path.resolve(__dirname, 'src/main.ts'),
@@ -133,7 +132,4 @@ export default defineConfig(({mode}) => ({
     }),
     visualizer(),
   ],
-  resolve: {
-    preserveSymlinks: true,
-  },
 }));
