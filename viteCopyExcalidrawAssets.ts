@@ -26,15 +26,15 @@ export default function viteCopyExcalidrawAssets(): Plugin[] {
       },
       name: 'viteCopyExcalidrawAssets',
     },
-    ...viteStaticCopy({
-      targets: [
-        {
-          dest: `./`,
-          src: normalizePath(
-            path.join(require.resolve('@excalidraw/excalidraw'), '..', 'fonts'),
-          ),
-        },
-      ],
-    }),
+    // ...viteStaticCopy({
+    //   targets: [
+    //     {
+    //       dest: `./`,
+    //       src: normalizePath(
+    //         path.join(require.resolve('@excalidraw/excalidraw'), '..', 'fonts'),
+    //       ),
+    //     },
+    //   ],
+    // }),
   ];
 }
