@@ -11,7 +11,7 @@ import {
   LexicalComposer,
 } from '@lexical/react/LexicalComposer';
 import {EditorThemeClasses} from 'lexical';
-import {type JSX} from 'react';
+import {ReactNode, type JSX} from 'react';
 
 import {Settings as SettingType} from './appSettings';
 import {
@@ -22,7 +22,7 @@ import {FlashMessageContext} from './context/FlashMessageContext';
 import {SettingsContext, useSettings} from './context/SettingsContext';
 import {SharedHistoryContext} from './context/SharedHistoryContext';
 import {ToolbarContext} from './context/ToolbarContext';
-import Editor, {OnEditorStateChangeCallback} from './Editor';
+import Editor, {OnEditorStateChangeCallback, PluginBuilder} from './Editor';
 import {TableContext} from './plugins/TablePlugin';
 import {provideLPEditorConfig} from './utils/provideLPEditorConfig';
 
@@ -36,6 +36,7 @@ type EditorProps = {
   theme?: EditorThemeClasses;
   hideToolbar?: boolean;
   readOnly?: boolean;
+  pluginBuilder?: PluginBuilder;
 };
 
 export function App(props: EditorProps): JSX.Element {
@@ -60,6 +61,7 @@ export function App(props: EditorProps): JSX.Element {
                 readOnly={props.readOnly}
                 hideToolbar={props.hideToolbar}
                 onChange={props.onChange}
+                pluginBuilder={props.pluginBuilder}
               />
             </div>
             {/* {isDevPlayground && <Settings />}
@@ -80,8 +82,14 @@ export type PlayGroundAppProps = Partial<SettingType> & {
 } & EditorProps;
 
 export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
-  const {onChange, initialState, theme, actionsDisplayState, ...settings} =
-    props;
+  const {
+    onChange,
+    pluginBuilder,
+    initialState,
+    theme,
+    actionsDisplayState,
+    ...settings
+  } = props;
 
   const hideToolbar = 'hideToolbar' in props && props.hideToolbar !== false;
   const readOnly = 'readOnly' in props && props.readOnly !== false;
@@ -96,6 +104,7 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
             initialState={initialState}
             theme={theme}
             onChange={onChange}
+            pluginBuilder={pluginBuilder}
           />
         </ActionsDisplayStateContext>
       </FlashMessageContext>

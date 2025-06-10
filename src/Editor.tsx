@@ -7,7 +7,7 @@
  */
 
 // eslint-disable-next-line simple-import-sort/imports
-import type {JSX} from 'react';
+import type {JSX, ReactNode} from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {CharacterLimitPlugin} from '@lexical/react/LexicalCharacterLimitPlugin';
@@ -77,6 +77,7 @@ import TwitterPlugin from './plugins/TwitterPlugin';
 import YouTubePlugin from './plugins/YouTubePlugin';
 import ContentEditable from './ui/ContentEditable';
 import {SelctionCommentPlugin} from './plugins/selectionCommentPlugin';
+import {LexicalEditor} from 'lexical';
 
 const skipCollaborationInit =
   // @ts-expect-error
@@ -86,10 +87,13 @@ export type OnEditorStateChangeCallback = Parameters<
   typeof OnChangePlugin
 >[0]['onChange'];
 
+export type PluginBuilder = (editor: LexicalEditor) => ReactNode;
+
 export default function Editor(props: {
   onChange?: OnEditorStateChangeCallback;
   hideToolbar?: boolean;
   readOnly?: boolean;
+  pluginBuilder?: PluginBuilder;
 }): JSX.Element {
   const {historyState} = useSharedHistoryContext();
   const {
@@ -285,6 +289,7 @@ export default function Editor(props: {
         <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
         {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
         {shouldAllowHighlightingWithBrackets && <SpecialTextPlugin />}
+        {!!props.pluginBuilder && props.pluginBuilder(editor)}
       </div>
       <ActionsPlugin
         isRichText={isRichText}
