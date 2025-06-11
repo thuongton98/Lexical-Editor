@@ -1,4 +1,7 @@
-import {merge} from 'lodash-es';
+import {$createLinkNode} from '@lexical/link';
+import {$createListItemNode, $createListNode} from '@lexical/list';
+import {InitialEditorStateType} from '@lexical/react/LexicalComposer';
+import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
 import {
   $createParagraphNode,
   $createTextNode,
@@ -8,14 +11,11 @@ import {
   EditorThemeClasses,
   TextNode,
 } from 'lexical';
-import {InitialEditorStateType} from '@lexical/react/LexicalComposer';
-import {parseAllowedFontSize} from '../plugins/ToolbarPlugin/fontSize';
-import {parseAllowedColor} from '../ui/ColorPicker';
-import {$createListItemNode, $createListNode} from '@lexical/list';
-import {$createLinkNode} from '@lexical/link';
-import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
-import PlaygroundEditorTheme from '../themes/PlaygroundEditorTheme';
+import {merge} from 'lodash-es';
 import PlaygroundNodes from '../nodes/PlaygroundNodes';
+import {parseAllowedFontSize} from '../plugins/ToolbarPlugin/fontSize';
+import PlaygroundEditorTheme from '../themes/PlaygroundEditorTheme';
+import {parseAllowedColor} from '../ui/ColorPicker';
 
 function $prepopulatedRichText() {
   const root = $getRoot();

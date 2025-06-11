@@ -38,6 +38,7 @@ import {
 import {useCallback, useEffect, useState} from 'react';
 
 import {INITIAL_SETTINGS} from '../../appSettings';
+import {useActionsState} from '../../context/ActionsContext';
 import useFlashMessage from '../../hooks/useFlashMessage';
 import useModal from '../../hooks/useModal';
 import Button from '../../ui/Button';
@@ -47,7 +48,6 @@ import {
   SPEECH_TO_TEXT_COMMAND,
   SUPPORT_SPEECH_RECOGNITION,
 } from '../SpeechToTextPlugin';
-import {useActionsState} from '../../context/ActionsContext';
 
 async function sendEditorState(editor: LexicalEditor): Promise<void> {
   const stringifiedEditorState = JSON.stringify(editor.getEditorState());
@@ -142,14 +142,14 @@ export default function ActionsPlugin({
       ({dirtyElements, prevEditorState, tags}) => {
         // If we are in read only mode, send the editor state
         // to server and ask for validation if possible.
-        if (
-          !isEditable &&
-          dirtyElements.size > 0 &&
-          !tags.has(HISTORIC_TAG) &&
-          !tags.has(COLLABORATION_TAG)
-        ) {
-          validateEditorState(editor);
-        }
+        // if (
+        //   !isEditable &&
+        //   dirtyElements.size > 0 &&
+        //   !tags.has(HISTORIC_TAG) &&
+        //   !tags.has(COLLABORATION_TAG)
+        // ) {
+        //   validateEditorState(editor);
+        // }
         editor.getEditorState().read(() => {
           const root = $getRoot();
           const children = root.getChildren();

@@ -7,6 +7,10 @@ A beautifully crafted, fully-featured rich text editor component extracted from 
 This package is based on `0.31.2` version of the actual `lexical-playground`.
 
 ---
+## Change logs
+`1.1.0` New prop `domMutation` added to `Editor` component which allow to mutate the editor's html DOM with javascript
+
+---
 
 ## ✨ Features
 

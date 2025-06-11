@@ -31,6 +31,7 @@ import {CAN_USE_DOM} from '@lexical/utils';
 import {useEffect, useState} from 'react';
 
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
+import {LexicalEditor} from 'lexical';
 import {createWebsocketProvider} from './collaboration';
 import {useSettings} from './context/SettingsContext';
 import {useSharedHistoryContext} from './context/SharedHistoryContext';
@@ -63,6 +64,7 @@ import {MaxLengthPlugin} from './plugins/MaxLengthPlugin';
 import MentionsPlugin from './plugins/MentionsPlugin';
 import PageBreakPlugin from './plugins/PageBreakPlugin';
 import PollPlugin from './plugins/PollPlugin';
+import {SelctionCommentPlugin} from './plugins/selectionCommentPlugin';
 import ShortcutsPlugin from './plugins/ShortcutsPlugin';
 import SpecialTextPlugin from './plugins/SpecialTextPlugin';
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
@@ -76,8 +78,6 @@ import TreeViewPlugin from './plugins/TreeViewPlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
 import YouTubePlugin from './plugins/YouTubePlugin';
 import ContentEditable from './ui/ContentEditable';
-import {SelctionCommentPlugin} from './plugins/selectionCommentPlugin';
-import {LexicalEditor} from 'lexical';
 
 const skipCollaborationInit =
   // @ts-expect-error
@@ -94,6 +94,7 @@ export default function Editor(props: {
   hideToolbar?: boolean;
   readOnly?: boolean;
   pluginBuilder?: PluginBuilder;
+  domMutation?: boolean;
 }): JSX.Element {
   const {historyState} = useSharedHistoryContext();
   const {
@@ -157,8 +158,26 @@ export default function Editor(props: {
   useEffect(() => {
     if (props.readOnly && editor.isEditable()) {
       editor.setEditable(false);
+
+      // With this changes, editor dom can mutate
+      if (props.domMutation) {
+        editor._observer?.disconnect();
+        editor._listeners.update = new Set();
+        editor._listeners.decorator = new Set();
+        editor._listeners.mutation = new Map();
+        editor._listeners.root = new Set();
+        editor._listeners.textcontent = new Set();
+        editor._listeners.editable = new Set();
+
+        editor._editorState._flushSync = false;
+        editor._dirtyElements = new Map();
+        editor._commands = new Map();
+        editor._dirtyLeaves = new Set();
+        editor._observer = null;
+        editor.update = () => {};
+      }
     }
-  }, [props.readOnly]);
+  }, [props.readOnly, editor]);
 
   return (
     <>

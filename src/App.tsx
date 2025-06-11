@@ -37,6 +37,7 @@ type EditorProps = {
   hideToolbar?: boolean;
   readOnly?: boolean;
   pluginBuilder?: PluginBuilder;
+  domMutation?: boolean;
 };
 
 export function App(props: EditorProps): JSX.Element {
@@ -58,6 +59,7 @@ export function App(props: EditorProps): JSX.Element {
           <ToolbarContext>
             <div className="editor-shell">
               <Editor
+                domMutation={props.domMutation}
                 readOnly={props.readOnly}
                 hideToolbar={props.hideToolbar}
                 onChange={props.onChange}
@@ -87,6 +89,7 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
     pluginBuilder,
     initialState,
     theme,
+    domMutation,
     actionsDisplayState,
     ...settings
   } = props;
@@ -99,6 +102,7 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
       <FlashMessageContext>
         <ActionsDisplayStateContext settingProps={actionsDisplayState}>
           <App
+            domMutation={domMutation}
             readOnly={readOnly}
             hideToolbar={hideToolbar}
             initialState={initialState}
