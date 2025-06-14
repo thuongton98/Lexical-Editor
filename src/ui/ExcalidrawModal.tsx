@@ -31,7 +31,7 @@ import Modal from './Modal';
 
 export type ExcalidrawInitialElements = ExcalidrawInitialDataState['elements'];
 
-type ExcalidrawProps = {
+export type ExcalidrawProps = {
   /**
    * The initial set of elements to draw into the scene
    */
