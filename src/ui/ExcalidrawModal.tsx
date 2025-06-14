@@ -14,25 +14,24 @@ import type {
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
 } from '@excalidraw/excalidraw/dist/types/excalidraw/types';
+import {isDOMNode} from 'lexical';
 import type {JSX} from 'react';
 import * as React from 'react';
+import {ReactPortal, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 
 const Excalidraw = React.lazy(async () => {
   const {Excalidraw} = await import('@excalidraw/excalidraw');
 
   return {default: Excalidraw};
 });
-import {isDOMNode} from 'lexical';
-import {ReactPortal, useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {createPortal} from 'react-dom';
 
 import Button from './Button';
 import Modal from './Modal';
 
 export type ExcalidrawInitialElements = ExcalidrawInitialDataState['elements'];
 
-type Props = {
-  closeOnClickOutside?: boolean;
+type ExcalidrawProps = {
   /**
    * The initial set of elements to draw into the scene
    */
@@ -45,10 +44,6 @@ type Props = {
    * The initial set of elements to draw into the scene
    */
   initialFiles: BinaryFiles;
-  /**
-   * Controls the visibility of the modal
-   */
-  isShown?: boolean;
   /**
    * Callback when closing and discarding the new changes
    */
@@ -65,7 +60,19 @@ type Props = {
     appState: Partial<AppState>,
     files: BinaryFiles,
   ) => void;
+  /**
+   * Callback when any change happen
+   */
+  onChange: () => void;
 };
+
+type Props = {
+  closeOnClickOutside?: boolean;
+  /**
+   * Controls the visibility of the modal
+   */
+  isShown?: boolean;
+} & ExcalidrawProps;
 
 export const useCallbackRefState = () => {
   const [refValue, setRefValue] =
@@ -84,55 +91,17 @@ export const useCallbackRefState = () => {
  */
 export default function ExcalidrawModal({
   closeOnClickOutside = false,
-  onSave,
-  initialElements,
-  initialAppState,
-  initialFiles,
-  isShown = false,
-  onDelete,
-  onClose,
+  isShown,
+  ...props
 }: Props): ReactPortal | null {
   const excaliDrawModelRef = useRef<HTMLDivElement | null>(null);
-  const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();
-  const [discardModalOpen, setDiscardModalOpen] = useState(false);
-  const [elements, setElements] =
-    useState<ExcalidrawInitialElements>(initialElements);
-  const [files, setFiles] = useState<BinaryFiles>(initialFiles);
+  const onDelete = props.onDelete;
 
   useEffect(() => {
     if (excaliDrawModelRef.current !== null) {
       excaliDrawModelRef.current.focus();
     }
   }, []);
-
-  useEffect(() => {
-    let modalOverlayElement: HTMLElement | null = null;
-
-    const clickOutsideHandler = (event: MouseEvent) => {
-      const target = event.target;
-      if (
-        excaliDrawModelRef.current !== null &&
-        isDOMNode(target) &&
-        !excaliDrawModelRef.current.contains(target) &&
-        closeOnClickOutside
-      ) {
-        onDelete();
-      }
-    };
-
-    if (excaliDrawModelRef.current !== null) {
-      modalOverlayElement = excaliDrawModelRef.current?.parentElement;
-      if (modalOverlayElement !== null) {
-        modalOverlayElement?.addEventListener('click', clickOutsideHandler);
-      }
-    }
-
-    return () => {
-      if (modalOverlayElement !== null) {
-        modalOverlayElement?.removeEventListener('click', clickOutsideHandler);
-      }
-    };
-  }, [closeOnClickOutside, onDelete]);
 
   useLayoutEffect(() => {
     const currentModalRef = excaliDrawModelRef.current;
@@ -152,7 +121,81 @@ export default function ExcalidrawModal({
         currentModalRef.removeEventListener('keydown', onKeyDown);
       }
     };
-  }, [elements, files, onDelete]);
+  }, [onDelete]);
+
+  const clickOutsideHandler = React.useCallback(
+    (event: MouseEvent) => {
+      const target = event.target;
+      if (
+        excaliDrawModelRef.current !== null &&
+        isDOMNode(target) &&
+        !excaliDrawModelRef.current.contains(target) &&
+        closeOnClickOutside
+      ) {
+        onDelete();
+      }
+    },
+    [onDelete],
+  );
+
+  const setEscapeHandler = React.useCallback(() => {
+    let modalOverlayElement: HTMLElement | null = null;
+
+    if (excaliDrawModelRef.current !== null) {
+      modalOverlayElement = excaliDrawModelRef.current?.parentElement;
+      if (modalOverlayElement !== null) {
+        modalOverlayElement?.addEventListener('click', clickOutsideHandler);
+      }
+    }
+  }, [clickOutsideHandler]);
+
+  useEffect(() => {
+    setEscapeHandler();
+
+    return () => {
+      let modalOverlayElement = excaliDrawModelRef.current?.parentElement;
+      if (modalOverlayElement !== null) {
+        modalOverlayElement?.removeEventListener('click', setEscapeHandler);
+      }
+    };
+  }, [closeOnClickOutside, setEscapeHandler, onDelete]);
+
+  const onChange = React.useCallback(
+    () => setEscapeHandler(),
+    [setEscapeHandler],
+  );
+
+  if (isShown === false) {
+    return null;
+  }
+
+  return createPortal(
+    <div className="ExcalidrawModal__overlay" role="dialog">
+      <div
+        className="ExcalidrawModal__modal"
+        ref={excaliDrawModelRef}
+        tabIndex={-1}>
+        <ExcalidrawImpl {...props} onChange={onChange} />
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+export function ExcalidrawImpl({
+  onSave,
+  initialElements,
+  initialAppState,
+  initialFiles,
+  onDelete,
+  onClose,
+  onChange: _onChange,
+}: ExcalidrawProps) {
+  const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();
+  const [discardModalOpen, setDiscardModalOpen] = useState(false);
+  const [elements, setElements] =
+    useState<ExcalidrawInitialElements>(initialElements);
+  const [files, setFiles] = useState<BinaryFiles>(initialFiles);
 
   const save = () => {
     if (elements && elements.filter((el) => !el.isDeleted).length > 0) {
@@ -210,10 +253,6 @@ export default function ExcalidrawModal({
     );
   }
 
-  if (isShown === false) {
-    return null;
-  }
-
   const onChange = (
     els: ExcalidrawInitialElements,
     _: AppState,
@@ -221,38 +260,30 @@ export default function ExcalidrawModal({
   ) => {
     setElements(els);
     setFiles(fls);
+    _onChange();
   };
-
-  return createPortal(
-    <div className="ExcalidrawModal__overlay" role="dialog">
-      <div
-        className="ExcalidrawModal__modal"
-        ref={excaliDrawModelRef}
-        tabIndex={-1}>
-        <div className="ExcalidrawModal__row">
-          {discardModalOpen && <ShowDiscardDialog />}
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <Excalidraw
-              onChange={onChange}
-              excalidrawAPI={excalidrawAPIRefCallback}
-              initialData={{
-                appState: initialAppState || {isLoading: false},
-                elements: initialElements,
-                files: initialFiles,
-              }}
-            />
-          </React.Suspense>
-          <div className="ExcalidrawModal__actions">
-            <button className="action-button" onClick={discard}>
-              Discard
-            </button>
-            <button className="action-button" onClick={save}>
-              Save
-            </button>
-          </div>
-        </div>
+  return (
+    <div className="ExcalidrawModal__row">
+      {discardModalOpen && <ShowDiscardDialog />}
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <Excalidraw
+          onChange={onChange}
+          excalidrawAPI={excalidrawAPIRefCallback}
+          initialData={{
+            appState: initialAppState || {isLoading: false},
+            elements: initialElements,
+            files: initialFiles,
+          }}
+        />
+      </React.Suspense>
+      <div className="ExcalidrawModal__actions">
+        <button className="action-button" onClick={discard}>
+          Discard
+        </button>
+        <button className="action-button" onClick={save}>
+          Save
+        </button>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
 }
