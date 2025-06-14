@@ -11,7 +11,7 @@ import {
   LexicalComposer,
 } from '@lexical/react/LexicalComposer';
 import {EditorThemeClasses} from 'lexical';
-import {ReactNode, type JSX} from 'react';
+import {type JSX} from 'react';
 
 import {Settings as SettingType} from './appSettings';
 import {
@@ -22,7 +22,11 @@ import {FlashMessageContext} from './context/FlashMessageContext';
 import {SettingsContext, useSettings} from './context/SettingsContext';
 import {SharedHistoryContext} from './context/SharedHistoryContext';
 import {ToolbarContext} from './context/ToolbarContext';
-import Editor, {OnEditorStateChangeCallback, PluginBuilder} from './Editor';
+import Editor, {
+  EditorProps,
+  OnEditorStateChangeCallback,
+  PluginBuilder,
+} from './Editor';
 import {TableContext} from './plugins/TablePlugin';
 import {provideLPEditorConfig} from './utils/provideLPEditorConfig';
 
@@ -30,7 +34,7 @@ console.warn(
   'If you are profiling the playground app, please ensure you turn off the debug view. You can disable it by pressing on the settings control in the bottom-left of your screen and toggling the debug view setting.',
 );
 
-type EditorProps = {
+type AppProps = {
   onChange?: OnEditorStateChangeCallback;
   initialState?: InitialEditorStateType;
   theme?: EditorThemeClasses;
@@ -38,9 +42,9 @@ type EditorProps = {
   readOnly?: boolean;
   pluginBuilder?: PluginBuilder;
   domMutation?: boolean;
-};
+} & EditorProps;
 
-export function App(props: EditorProps): JSX.Element {
+export function App(props: AppProps): JSX.Element {
   const {
     settings: {isCollab, emptyEditor, measureTypingPerf},
   } = useSettings();
@@ -59,6 +63,7 @@ export function App(props: EditorProps): JSX.Element {
           <ToolbarContext>
             <div className="editor-shell">
               <Editor
+                toolbarPlugins={props.toolbarPlugins}
                 domMutation={props.domMutation}
                 readOnly={props.readOnly}
                 hideToolbar={props.hideToolbar}
@@ -81,7 +86,7 @@ export function App(props: EditorProps): JSX.Element {
 
 export type PlayGroundAppProps = Partial<SettingType> & {
   actionsDisplayState?: ActionsBtnDisplayState;
-} & EditorProps;
+} & AppProps;
 
 export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
   const {
@@ -91,6 +96,7 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
     theme,
     domMutation,
     actionsDisplayState,
+    toolbarPlugins,
     ...settings
   } = props;
 
@@ -102,6 +108,7 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
       <FlashMessageContext>
         <ActionsDisplayStateContext settingProps={actionsDisplayState}>
           <App
+            toolbarPlugins={toolbarPlugins}
             domMutation={domMutation}
             readOnly={readOnly}
             hideToolbar={hideToolbar}
