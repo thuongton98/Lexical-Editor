@@ -9,6 +9,7 @@ This package is based on `0.31.2` version of the actual `lexical-playground`.
 ---
 ## Change logs
 `1.1.0` New prop `domMutation` added to `Editor` component which allow to mutate the editor's html DOM with javascript
+`1.2.0` Expose `ExcalidrawImpl` component and `useExcalidraw` hook to make it possible use it on different place and control how to display Excalidraw editor and then pass its result to editor
 
 ---
 
