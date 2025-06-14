@@ -60,10 +60,6 @@ type ExcalidrawProps = {
     appState: Partial<AppState>,
     files: BinaryFiles,
   ) => void;
-  /**
-   * Callback when any change happen
-   */
-  onChange: () => void;
 };
 
 type Props = {
@@ -182,6 +178,13 @@ export default function ExcalidrawModal({
   );
 }
 
+type ExcalidrawSpecificProps = {
+  /**
+   * Callback when any change happen
+   */
+  onChange: () => void;
+};
+
 export function ExcalidrawImpl({
   onSave,
   initialElements,
@@ -190,7 +193,7 @@ export function ExcalidrawImpl({
   onDelete,
   onClose,
   onChange: _onChange,
-}: ExcalidrawProps) {
+}: ExcalidrawProps & ExcalidrawSpecificProps) {
   const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();
   const [discardModalOpen, setDiscardModalOpen] = useState(false);
   const [elements, setElements] =
