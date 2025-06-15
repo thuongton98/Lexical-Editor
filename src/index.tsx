@@ -9,8 +9,8 @@
 // setupEnv must load before App because lexical computes CAN_USE_BEFORE_INPUT
 // at import time (disableBeforeInput is used to test legacy events)
 // eslint-disable-next-line simple-import-sort/imports
-import setupEnv from './setupEnv';
 import {Editor} from './main';
+import setupEnv from './setupEnv';
 
 import * as React from 'react';
 import {createRoot} from 'react-dom/client';

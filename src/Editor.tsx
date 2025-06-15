@@ -140,7 +140,7 @@ export default function Editor(props: EditorProps): JSX.Element {
     }
   };
 
-  const toolbarPlugins = useToolbarPlugins();
+  const toolbarPlugins = useToolbarPlugins(props.toolbarPlugins);
 
   useEffect(() => {
     const updateViewPortWidth = () => {

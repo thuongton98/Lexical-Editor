@@ -1,4 +1,4 @@
-import {LexicalCommand, LexicalEditor} from 'lexical';
+import {LexicalCommand} from 'lexical';
 import {merge} from 'lodash-es';
 import {ReactNode} from 'react';
 import ExcalidrawPlugin from '../plugins/ExcalidrawPlugin';
@@ -19,12 +19,10 @@ const COMMAND_ASSOCIATED_TO_TOOLBAR_PLUGIN: {
 };
 
 const INITIAL_TOOLBAR_PLUGINS: ToolbarPlugins = {
-  excalidraw: (_: LexicalCommand<void>) => (
-    <ExcalidrawPlugin key="excalidraw" />
-  ),
+  excalidraw: (_: LexicalCommand<void>, key) => <ExcalidrawPlugin key={key} />,
 };
 
-export function useToolbarPlugins(toolbarPlugins?: ToolbarPlugins) {
+export function useToolbarPlugins(toolbarPlugins?: Partial<ToolbarPlugins>) {
   const mergedToolbarPlugins = merge(INITIAL_TOOLBAR_PLUGINS, toolbarPlugins);
 
   return Object.keys(mergedToolbarPlugins).map((pluginName) => {
