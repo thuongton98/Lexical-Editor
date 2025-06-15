@@ -9,17 +9,12 @@ import type {JSX} from 'react';
 
 import '@excalidraw/excalidraw/index.css';
 
-import {createCommand, LexicalCommand} from 'lexical';
 import {useCallback, useState} from 'react';
 
 import {AppState} from '@excalidraw/excalidraw/dist/types/excalidraw/types';
 
-import {useExcalidraw} from '../../hooks/useExaclidraw';
+import {useExcalidraw} from '../../hooks/useExcalidraw';
 import ExcalidrawModal, {ExcalidrawProps} from '../../ui/ExcalidrawModal';
-
-export const INSERT_EXCALIDRAW_COMMAND: LexicalCommand<void> = createCommand(
-  'INSERT_EXCALIDRAW_COMMAND',
-);
 
 export default function ExcalidrawPlugin(): JSX.Element | null {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);

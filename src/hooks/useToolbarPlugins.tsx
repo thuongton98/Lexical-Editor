@@ -1,11 +1,8 @@
 import {LexicalCommand, LexicalEditor} from 'lexical';
 import {merge} from 'lodash-es';
 import {ReactNode} from 'react';
-import ExcalidrawPlugin, {
-  INSERT_EXCALIDRAW_COMMAND,
-} from '../plugins/ExcalidrawPlugin';
-
-export type PluginBuilder = (editor: LexicalEditor) => ReactNode;
+import ExcalidrawPlugin from '../plugins/ExcalidrawPlugin';
+import {INSERT_EXCALIDRAW_COMMAND} from './useExcalidraw';
 
 export type ToolbarPluginBuilder = (
   associatedCommand: LexicalCommand<void>,

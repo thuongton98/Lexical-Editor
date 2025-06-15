@@ -7,7 +7,7 @@
  */
 
 // eslint-disable-next-line simple-import-sort/imports
-import type {JSX} from 'react';
+import type {JSX, ReactNode} from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {CharacterLimitPlugin} from '@lexical/react/LexicalCharacterLimitPlugin';
@@ -31,14 +31,11 @@ import {CAN_USE_DOM} from '@lexical/utils';
 import {useEffect, useState} from 'react';
 
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
+import {LexicalEditor} from 'lexical';
 import {createWebsocketProvider} from './collaboration';
 import {useSettings} from './context/SettingsContext';
 import {useSharedHistoryContext} from './context/SharedHistoryContext';
-import {
-  PluginBuilder,
-  ToolbarPlugins,
-  useToolbarPlugins,
-} from './hooks/useToolbarPlugins';
+import {ToolbarPlugins, useToolbarPlugins} from './hooks/useToolbarPlugins';
 import ActionsPlugin from './plugins/ActionsPlugin';
 import AutocompletePlugin from './plugins/AutocompletePlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
@@ -88,6 +85,8 @@ const skipCollaborationInit =
 export type OnEditorStateChangeCallback = Parameters<
   typeof OnChangePlugin
 >[0]['onChange'];
+
+export type PluginBuilder = (editor: LexicalEditor) => ReactNode;
 
 export type EditorProps = {
   onChange?: OnEditorStateChangeCallback;

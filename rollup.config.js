@@ -1,14 +1,14 @@
-import {resolve} from 'path';
+import commonjs from '@rollup/plugin-commonjs';
+import image from '@rollup/plugin-image';
+import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import postcss from 'rollup-plugin-postcss';
-import json from '@rollup/plugin-json';
-import image from '@rollup/plugin-image';
-import {dts} from 'rollup-plugin-dts';
-import packageJson from './package.json' assert {type: 'json'};
-import url from 'postcss-url';
+import {resolve} from 'path';
 import postcssImport from 'postcss-import';
-import commonjs from '@rollup/plugin-commonjs';
+import url from 'postcss-url';
+import {dts} from 'rollup-plugin-dts';
+import postcss from 'rollup-plugin-postcss';
+import packageJson from './package.json' assert {type: 'json'};
 
 const input = resolve(__dirname, './src/main.ts');
 const external = [

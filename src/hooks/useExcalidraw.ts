@@ -1,4 +1,4 @@
-import {
+import type {
   AppState,
   BinaryFiles,
 } from '@excalidraw/excalidraw/dist/types/excalidraw/types';
@@ -9,11 +9,16 @@ import {
   $insertNodes,
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_EDITOR,
+  createCommand,
+  LexicalCommand,
 } from 'lexical';
 import {useEffect} from 'react';
 import {$createExcalidrawNode, ExcalidrawNode} from '../nodes/ExcalidrawNode';
-import {INSERT_EXCALIDRAW_COMMAND} from '../plugins/ExcalidrawPlugin';
 import {ExcalidrawInitialElements} from '../ui/ExcalidrawModal';
+
+export const INSERT_EXCALIDRAW_COMMAND: LexicalCommand<void> = createCommand(
+  'INSERT_EXCALIDRAW_COMMAND',
+);
 
 export function useExcalidraw(options: {
   handleOnExcaliDrawRequest: () => void;
