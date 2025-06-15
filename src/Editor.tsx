@@ -7,7 +7,7 @@
  */
 
 // eslint-disable-next-line simple-import-sort/imports
-import type {JSX, ReactNode} from 'react';
+import type {JSX} from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {CharacterLimitPlugin} from '@lexical/react/LexicalCharacterLimitPlugin';
@@ -31,11 +31,14 @@ import {CAN_USE_DOM} from '@lexical/utils';
 import {useEffect, useState} from 'react';
 
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
-import {LexicalCommand, LexicalEditor} from 'lexical';
-import {merge} from 'lodash-es';
 import {createWebsocketProvider} from './collaboration';
 import {useSettings} from './context/SettingsContext';
 import {useSharedHistoryContext} from './context/SharedHistoryContext';
+import {
+  PluginBuilder,
+  ToolbarPlugins,
+  useToolbarPlugins,
+} from './hooks/useToolbarPlugins';
 import ActionsPlugin from './plugins/ActionsPlugin';
 import AutocompletePlugin from './plugins/AutocompletePlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
@@ -50,9 +53,6 @@ import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
 import EmojisPlugin from './plugins/EmojisPlugin';
 import EquationsPlugin from './plugins/EquationsPlugin';
-import ExcalidrawPlugin, {
-  INSERT_EXCALIDRAW_COMMAND,
-} from './plugins/ExcalidrawPlugin';
 import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
@@ -89,17 +89,6 @@ export type OnEditorStateChangeCallback = Parameters<
   typeof OnChangePlugin
 >[0]['onChange'];
 
-export type PluginBuilder = (editor: LexicalEditor) => ReactNode;
-
-export type ToolbarPluginBuilder = (
-  associatedCommand: LexicalCommand<void>,
-  key: string,
-) => ReactNode;
-
-export type ToolbarPlugins = {
-  excalidraw: ToolbarPluginBuilder;
-};
-
 export type EditorProps = {
   onChange?: OnEditorStateChangeCallback;
   hideToolbar?: boolean;
@@ -107,18 +96,6 @@ export type EditorProps = {
   pluginBuilder?: PluginBuilder;
   domMutation?: boolean;
   toolbarPlugins?: Partial<ToolbarPlugins>;
-};
-
-const INITIAL_TOOLBAR_PLUGINS: ToolbarPlugins = {
-  excalidraw: (_: LexicalCommand<void>) => (
-    <ExcalidrawPlugin key="excalidraw" />
-  ),
-};
-
-const COMMAND_ASSOCIATED_TO_TOOLBAR_PLUGIN: {
-  [key in keyof ToolbarPlugins]: LexicalCommand<void>;
-} = {
-  excalidraw: INSERT_EXCALIDRAW_COMMAND,
 };
 
 export default function Editor(props: EditorProps): JSX.Element {
@@ -164,7 +141,7 @@ export default function Editor(props: EditorProps): JSX.Element {
     }
   };
 
-  const toolbarPlugins = merge(INITIAL_TOOLBAR_PLUGINS, props.toolbarPlugins);
+  const toolbarPlugins = useToolbarPlugins();
 
   useEffect(() => {
     const updateViewPortWidth = () => {
@@ -284,14 +261,7 @@ export default function Editor(props: EditorProps): JSX.Element {
             <ClickableLinkPlugin disabled={isEditable} />
             <HorizontalRulePlugin />
             <EquationsPlugin />
-            {Object.keys(toolbarPlugins).map((pluginName) => {
-              const key = pluginName as keyof ToolbarPlugins;
-              const pluginBuilder = toolbarPlugins[key];
-              return pluginBuilder(
-                COMMAND_ASSOCIATED_TO_TOOLBAR_PLUGIN[key],
-                key,
-              );
-            })}
+            {toolbarPlugins}
             <TabFocusPlugin />
             <TabIndentationPlugin maxIndent={7} />
             <CollapsiblePlugin />
