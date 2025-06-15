@@ -19,6 +19,10 @@ import {
   ActionsDisplayStateContext,
 } from './context/ActionsContext';
 import {FlashMessageContext} from './context/FlashMessageContext';
+import {
+  NodeConfigsContextProvider,
+  NodeConfigsContextType,
+} from './context/nodeConfigsContext';
 import {SettingsContext, useSettings} from './context/SettingsContext';
 import {SharedHistoryContext} from './context/SharedHistoryContext';
 import {ToolbarContext} from './context/ToolbarContext';
@@ -86,6 +90,7 @@ export function App(props: AppProps): JSX.Element {
 
 export type PlayGroundAppProps = Partial<SettingType> & {
   actionsDisplayState?: ActionsBtnDisplayState;
+  nodeHelperConfigs?: NodeConfigsContextType;
 } & AppProps;
 
 export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
@@ -107,16 +112,18 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
     <SettingsContext settingProps={settings}>
       <FlashMessageContext>
         <ActionsDisplayStateContext settingProps={actionsDisplayState}>
-          <App
-            toolbarPlugins={toolbarPlugins}
-            domMutation={domMutation}
-            readOnly={readOnly}
-            hideToolbar={hideToolbar}
-            initialState={initialState}
-            theme={theme}
-            onChange={onChange}
-            pluginBuilder={pluginBuilder}
-          />
+          <NodeConfigsContextProvider value={props.nodeHelperConfigs}>
+            <App
+              toolbarPlugins={toolbarPlugins}
+              domMutation={domMutation}
+              readOnly={readOnly}
+              hideToolbar={hideToolbar}
+              initialState={initialState}
+              theme={theme}
+              onChange={onChange}
+              pluginBuilder={pluginBuilder}
+            />
+          </NodeConfigsContextProvider>
         </ActionsDisplayStateContext>
       </FlashMessageContext>
     </SettingsContext>

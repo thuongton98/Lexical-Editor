@@ -6,9 +6,9 @@
  *
  */
 
-import type {ExcalidrawInitialElements} from '../../ui/ExcalidrawModal';
 import type {NodeKey} from 'lexical';
 import type {JSX} from 'react';
+import type {ExcalidrawInitialElements} from '../../ui/ExcalidrawModal';
 
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {useLexicalEditable} from '@lexical/react/useLexicalEditable';
@@ -20,17 +20,18 @@ import {
   COMMAND_PRIORITY_LOW,
   isDOMNode,
 } from 'lexical';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import * as React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import ExcalidrawModal from '../../ui/ExcalidrawModal';
-import ImageResizer from '../../ui/ImageResizer';
-import {$isExcalidrawNode} from '.';
-import ExcalidrawImage from './ExcalidrawImage';
 import {
   AppState,
   BinaryFiles,
 } from '@excalidraw/excalidraw/dist/types/excalidraw/types';
+import {$isExcalidrawNode} from '.';
+import {useNodeConfigsContext} from '../../context/nodeConfigsContext';
+import ExcalidrawModal from '../../ui/ExcalidrawModal';
+import ImageResizer from '../../ui/ImageResizer';
+import ExcalidrawImage from './ExcalidrawImage';
 
 export default function ExcalidrawComponent({
   nodeKey,
@@ -54,6 +55,7 @@ export default function ExcalidrawComponent({
   const [isSelected, setSelected, clearSelection] =
     useLexicalNodeSelection(nodeKey);
   const [isResizing, setIsResizing] = useState<boolean>(false);
+  const {ExcalidrawEditorDisplayer} = useNodeConfigsContext();
 
   useEffect(() => {
     if (!isEditable) {
@@ -175,21 +177,35 @@ export default function ExcalidrawComponent({
 
   return (
     <>
-      {isEditable && isModalOpen && (
-        <ExcalidrawModal
-          initialElements={elements}
-          initialFiles={files}
-          initialAppState={appState}
-          isShown={isModalOpen}
-          onDelete={deleteNode}
-          onClose={closeModal}
-          onSave={(els, aps, fls) => {
-            setData(els, aps, fls);
-            setModalOpen(false);
-          }}
-          closeOnClickOutside={false}
-        />
-      )}
+      {isEditable &&
+        isModalOpen &&
+        (ExcalidrawEditorDisplayer ? (
+          <ExcalidrawEditorDisplayer
+            initialElements={elements}
+            initialFiles={files}
+            initialAppState={appState}
+            onDelete={deleteNode}
+            onClose={closeModal}
+            onSave={(els, aps, fls) => {
+              setData(els, aps, fls);
+              setModalOpen(false);
+            }}
+          />
+        ) : (
+          <ExcalidrawModal
+            initialElements={elements}
+            initialFiles={files}
+            initialAppState={appState}
+            isShown={isModalOpen}
+            onDelete={deleteNode}
+            onClose={closeModal}
+            onSave={(els, aps, fls) => {
+              setData(els, aps, fls);
+              setModalOpen(false);
+            }}
+            closeOnClickOutside={false}
+          />
+        ))}
       {elements.length > 0 && (
         <button
           ref={buttonRef}
