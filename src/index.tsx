@@ -9,11 +9,13 @@
 // setupEnv must load before App because lexical computes CAN_USE_BEFORE_INPUT
 // at import time (disableBeforeInput is used to test legacy events)
 // eslint-disable-next-line simple-import-sort/imports
+import {NodeConfigsContextType} from './context/nodeConfigsContext';
 import {Editor} from './main';
 import setupEnv from './setupEnv';
 
 import * as React from 'react';
 import {createRoot} from 'react-dom/client';
+import {ExcalidrawProps} from './ui/ExcalidrawModal';
 
 if (setupEnv.disableBeforeInput) {
   // vite is really aggressive about tree-shaking, this
@@ -39,10 +41,6 @@ window.addEventListener('unhandledrejection', ({reason}) =>
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Editor
-      readOnly
-      showTreeView={false}
-      actionsDisplayState={{shareAction: false}}
-    />
+    <Editor showTreeView={false} actionsDisplayState={{shareAction: false}} />
   </React.StrictMode>,
 );

@@ -60,14 +60,14 @@ export type ExcalidrawProps = {
     appState: Partial<AppState>,
     files: BinaryFiles,
   ) => void;
-};
-
-type Props = {
-  closeOnClickOutside?: boolean;
   /**
    * Controls the visibility of the modal
    */
   isShown?: boolean;
+};
+
+type Props = {
+  closeOnClickOutside?: boolean;
 } & ExcalidrawProps;
 
 export const useCallbackRefState = () => {

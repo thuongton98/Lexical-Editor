@@ -184,6 +184,7 @@ export default function ExcalidrawComponent({
             initialElements={elements}
             initialFiles={files}
             initialAppState={appState}
+            isShown={isModalOpen}
             onDelete={deleteNode}
             onClose={closeModal}
             onSave={(els, aps, fls) => {
