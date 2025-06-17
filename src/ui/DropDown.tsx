@@ -183,6 +183,11 @@ export default function DropDown({
         left,
         window.innerWidth - dropDown.offsetWidth - 20,
       )}px`;
+
+      const {bottom} = dropDown.getBoundingClientRect();
+      if (bottom > innerHeight) {
+        dropDown.style.bottom = '0';
+      }
     }
   }, [dropDownRef, buttonRef, showDropDown]);
 
@@ -220,8 +225,14 @@ export default function DropDown({
         if (button !== null && dropDown !== null) {
           const {top} = button.getBoundingClientRect();
           const newPosition = top + button.offsetHeight + dropDownPadding;
-          if (newPosition !== dropDown.getBoundingClientRect().top) {
+          const {top: ddTop, bottom: ddBottom} =
+            dropDown.getBoundingClientRect();
+          if (newPosition !== ddTop) {
             dropDown.style.top = `${newPosition}px`;
+          }
+
+          if (ddBottom > window.innerHeight) {
+            dropDown.style.bottom = '0';
           }
         }
       }
