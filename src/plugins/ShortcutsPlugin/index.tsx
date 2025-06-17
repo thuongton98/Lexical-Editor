@@ -20,8 +20,11 @@ import {
 } from 'lexical';
 import {Dispatch, useEffect} from 'react';
 
+import {mergeRegister} from '@lexical/utils';
 import {useToolbarState} from '../../context/ToolbarContext';
 import {sanitizeUrl} from '../../utils/url';
+import {INSERT_INLINE_COMMAND} from '../shared/hooks/useCommentInputBox';
+import {DIRECT_ELEMENT_COMMAND} from '../TextDirectionPlugin';
 import {
   clearFormatting,
   formatBulletList,
@@ -53,15 +56,16 @@ import {
   isInsertLink,
   isJustifyAlign,
   isLeftAlign,
+  isLeftToRight,
   isLowercase,
   isOutdent,
   isRightAlign,
+  isRightToLeft,
   isStrikeThrough,
   isSubscript,
   isSuperscript,
   isUppercase,
 } from './shortcuts';
-import {INSERT_INLINE_COMMAND} from '../shared/hooks/useCommentInputBox';
 
 export default function ShortcutsPlugin({
   editor,
@@ -113,6 +117,10 @@ export default function ShortcutsPlugin({
         editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
       } else if (isJustifyAlign(event)) {
         editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
+      } else if (isLeftToRight(event)) {
+        editor.dispatchCommand(DIRECT_ELEMENT_COMMAND, 'ltr');
+      } else if (isRightToLeft(event)) {
+        editor.dispatchCommand(DIRECT_ELEMENT_COMMAND, 'rtl');
       } else if (isSubscript(event)) {
         editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript');
       } else if (isSuperscript(event)) {

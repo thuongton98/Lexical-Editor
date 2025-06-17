@@ -195,6 +195,22 @@ export function isJustifyAlign(event: KeyboardEvent): boolean {
   );
 }
 
+export function isLeftToRight(event: KeyboardEvent): boolean {
+  const {code} = event;
+  return (
+    code === 'KeyL' &&
+    isModifierMatch(event, {...CONTROL_OR_META, altKey: true, shiftKey: true})
+  );
+}
+
+export function isRightToLeft(event: KeyboardEvent): boolean {
+  const {code} = event;
+  return (
+    code === 'KeyR' &&
+    isModifierMatch(event, {...CONTROL_OR_META, altKey: true, shiftKey: true})
+  );
+}
+
 export function isSubscript(event: KeyboardEvent): boolean {
   const {code} = event;
   return code === 'Comma' && isModifierMatch(event, CONTROL_OR_META);

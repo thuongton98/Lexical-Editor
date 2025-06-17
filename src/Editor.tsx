@@ -72,6 +72,7 @@ import TableCellActionMenuPlugin from './plugins/TableActionMenuPlugin';
 import TableCellResizer from './plugins/TableCellResizer';
 import TableHoverActionsPlugin from './plugins/TableHoverActionsPlugin';
 import TableOfContentsPlugin from './plugins/TableOfContentsPlugin';
+import {TextDirectionPlugin} from './plugins/TextDirectionPlugin';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
@@ -199,6 +200,7 @@ export default function Editor(props: EditorProps): JSX.Element {
           setIsLinkEditMode={setIsLinkEditMode}
         />
       )}
+      <TextDirectionPlugin />
       <div
         className={`editor-container ${showTreeView ? 'tree-view' : ''} ${
           !isRichText ? 'plain-text' : ''
