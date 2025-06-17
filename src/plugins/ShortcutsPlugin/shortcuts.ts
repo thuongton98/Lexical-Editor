@@ -37,6 +37,10 @@ export const SHORTCUTS = Object.freeze({
   LEFT_ALIGN: IS_APPLE ? '⌘+Shift+L' : 'Ctrl+Shift+L',
   RIGHT_ALIGN: IS_APPLE ? '⌘+Shift+R' : 'Ctrl+Shift+R',
 
+  // (Ctrl|⌘) + Shift + Alt + <key> shortcuts
+  RIGHT_TO_LEFT: IS_APPLE ? '⌘+Shift+Alt+R' : 'Ctrl+Shift+Alt+R',
+  LEFT_TO_RIGHT: IS_APPLE ? '⌘+Shift+Alt+L' : 'Ctrl+Shift+Alt+L',
+
   // (Ctrl|⌘) + <key> shortcuts
   SUBSCRIPT: IS_APPLE ? '⌘+,' : 'Ctrl+,',
   SUPERSCRIPT: IS_APPLE ? '⌘+.' : 'Ctrl+.',
