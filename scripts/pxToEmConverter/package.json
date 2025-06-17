@@ -1,0 +1,11 @@
+{
+  "name": "px-to-em",
+  "version": "18.0.0",
+  "description": "A tool to convert px to em units.",
+  "main": "./convertPX2EM.ts",
+  "type": "module",
+  "dependencies": {
+    "yargs": "^18.0.0",
+    "@types/yargs": "^17.0.33"
+  }
+}
