@@ -7,11 +7,11 @@
  */
 
 .table-of-contents .heading2 {
-  margin-left: 10px;
+  margin-left: 0.667em;
 }
 
 .table-of-contents .heading3 {
-  margin-left: 20px;
+  margin-left: 1.333em;
 }
 
 .selected-heading {
@@ -26,17 +26,17 @@
   left: -30px;
   top: 4px;
   z-index: 10;
-  height: 4px;
-  width: 4px;
+  height: 0.267em;
+  width: 0.267em;
   background-color: #3578e5;
-  border: solid 4px white;
+  border: solid 0.267em white;
   border-radius: 50%;
 }
 
 .normal-heading {
   cursor: pointer;
-  line-height: 20px;
-  font-size: 16px;
+  line-height: 1.333em;
+  font-size: 1.067em;
 }
 
 .table-of-contents {
@@ -44,13 +44,13 @@
   position: fixed;
   top: 200px;
   right: -35px;
-  padding: 10px;
-  width: 250px;
+  padding: 0.667em;
+  width: 16.667em;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   z-index: 1;
-  height: 300px;
+  height: 20em;
 }
 
 .first-heading {
@@ -62,11 +62,11 @@
 .headings {
   list-style: none;
   margin-top: 0;
-  margin-left: 10px;
+  margin-left: 0.667em;
   padding: 0;
   overflow: scroll;
-  width: 200px;
-  height: 220px;
+  width: 13.333em;
+  height: 14.667em;
   overflow-x: hidden;
   overflow-y: auto;
   -ms-overflow-style: none; /* IE and Edge */
@@ -81,15 +81,15 @@
 .headings::before {
   content: ' ';
   position: absolute;
-  height: 220px;
-  width: 4px;
+  height: 14.667em;
+  width: 0.267em;
   right: 240px;
-  margin-top: 5px;
+  margin-top: 0.333em;
   background-color: #ccd0d5;
-  border-radius: 2px;
+  border-radius: 0.133em;
 }
 
 .normal-heading-wrapper {
-  margin-left: 32px;
+  margin-left: 2.133em;
   position: relative;
 }

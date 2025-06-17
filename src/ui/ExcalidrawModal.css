@@ -16,8 +16,8 @@
   bottom: 0px;
   left: 0px;
   right: 0px;
-  flex-grow: 0px;
-  flex-shrink: 1px;
+  flex-grow: 0em;
+  flex-shrink: 0.067em;
   z-index: 100;
   background-color: rgba(40, 40, 40, 0.6);
 }
@@ -30,19 +30,19 @@
 }
 .ExcalidrawModal__actions button {
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 0.333em;
 }
 .ExcalidrawModal__row {
   position: relative;
-  padding: 40px 5px 5px;
+  padding: 2.667em 0.333em 0.333em;
   width: 70vw;
   height: 70vh;
-  border-radius: 8px;
-  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  border-radius: 0.533em;
+  box-shadow: 0 0.8em 1.867em 0 rgba(0, 0, 0, 0.2), 0 0.133em 0.267em 0 rgba(0, 0, 0, 0.1),
+    inset 0 0 0 0.067em rgba(255, 255, 255, 0.5);
 }
 .ExcalidrawModal__row > div {
-  border-radius: 5px;
+  border-radius: 0.333em;
 }
 .ExcalidrawModal__modal {
   position: relative;
@@ -53,10 +53,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 0.533em;
   background-color: #eee;
 }
 .ExcalidrawModal__discardModal {
-  margin-top: 60px;
+  margin-top: 4em;
   text-align: center;
 }

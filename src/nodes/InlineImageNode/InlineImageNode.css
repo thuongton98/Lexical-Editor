@@ -8,26 +8,26 @@
  */
 
 .InlineImageNode__contentEditable {
-  min-height: 20px;
-  border: 0px;
+  min-height: 1.333em;
+  border: 0em;
   resize: none;
   cursor: text;
   caret-color: rgb(5, 5, 5);
   display: block;
   position: relative;
   tab-size: 1;
-  outline: 0px;
-  padding: 10px;
+  outline: 0em;
+  padding: 0.667em;
   user-select: text;
-  font-size: 14px;
+  font-size: 0.933em;
   line-height: 1.4em;
-  width: calc(100% - 20px);
+  width: calc(100% - 1.333em);
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .InlineImageNode__placeholder {
-  font-size: 12px;
+  font-size: 0.8em;
   color: #888;
   overflow: hidden;
   position: absolute;
@@ -49,9 +49,9 @@
 .InlineImageNode_Checkbox:checked + label,
 .InlineImageNode_Checkbox:not(:checked) + label {
   position: absolute;
-  padding-right: 55px;
+  padding-right: 3.667em;
   cursor: pointer;
-  line-height: 20px;
+  line-height: 1.333em;
   display: inline-block;
   color: #666;
 }
@@ -62,17 +62,17 @@
   position: absolute;
   right: 0;
   top: 0;
-  width: 18px;
-  height: 18px;
-  border: 1px solid #666;
+  width: 1.2em;
+  height: 1.2em;
+  border: 0.067em solid #666;
   background: #fff;
 }
 
 .InlineImageNode_Checkbox:checked + label:after,
 .InlineImageNode_Checkbox:not(:checked) + label:after {
   content: '';
-  width: 8px;
-  height: 8px;
+  width: 0.533em;
+  height: 0.533em;
   background: #222222;
   position: absolute;
   top: 6px;

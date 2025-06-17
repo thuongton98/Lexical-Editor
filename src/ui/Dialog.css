@@ -10,16 +10,16 @@
   display: flex;
   flex-direction: row;
   justify-content: right;
-  margin-top: 20px;
+  margin-top: 1.333em;
 }
 
 .DialogButtonsList {
   display: flex;
   flex-direction: column;
   justify-content: right;
-  margin-top: 20px;
+  margin-top: 1.333em;
 }
 
 .DialogButtonsList button {
-  margin-bottom: 20px;
+  margin-bottom: 1.333em;
 }

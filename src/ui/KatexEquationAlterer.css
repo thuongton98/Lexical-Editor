@@ -10,8 +10,8 @@
 .KatexEquationAlterer_defaultRow {
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0.667em;
+  margin-bottom: 0.667em;
   justify-content: space-between;
   overflow: hidden;
 }
@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: row;
   overflow: hidden;
-  margin-top: 20px;
+  margin-top: 1.333em;
   margin-bottom: 0;
   justify-content: right;
 }
@@ -28,8 +28,8 @@
 .KatexEquationAlterer_centerRow {
   display: flex;
   flex-direction: 'row';
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0.667em;
+  margin-bottom: 0.667em;
   justify-content: center;
   overflow: hidden;
 }
@@ -37,5 +37,5 @@
 .KatexEquationAlterer_textArea {
   width: 100%;
   resize: none;
-  padding: 7px;
+  padding: 0.467em;
 }

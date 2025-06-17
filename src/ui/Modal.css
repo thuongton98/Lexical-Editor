@@ -18,38 +18,38 @@
   left: 0px;
   right: 0px;
   background-color: rgba(40, 40, 40, 0.6);
-  flex-grow: 0px;
-  flex-shrink: 1px;
+  flex-grow: 0em;
+  flex-shrink: 0.067em;
   z-index: 100;
 }
 .Modal__modal {
-  padding: 20px;
-  min-height: 100px;
-  min-width: 300px;
+  padding: 1.333em;
+  min-height: 6.667em;
+  min-width: 20em;
   display: flex;
-  flex-grow: 0px;
+  flex-grow: 0em;
   background-color: #fff;
   flex-direction: column;
   position: relative;
-  box-shadow: 0 0 20px 0 #444;
-  border-radius: 10px;
+  box-shadow: 0 0 1.333em 0 #444;
+  border-radius: 0.667em;
 }
 .Modal__title {
   color: #444;
-  margin: 0px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+  margin: 0em;
+  padding-bottom: 0.667em;
+  border-bottom: 0.067em solid #ccc;
 }
 .Modal__closeButton {
-  border: 0px;
+  border: 0em;
   position: absolute;
   right: 20px;
-  border-radius: 20px;
+  border-radius: 1.333em;
   justify-content: center;
   align-items: center;
   display: flex;
-  width: 30px;
-  height: 30px;
+  width: 2em;
+  height: 2em;
   text-align: center;
   cursor: pointer;
   background-color: #eee;
@@ -58,5 +58,5 @@
   background-color: #ddd;
 }
 .Modal__content {
-  padding-top: 20px;
+  padding-top: 1.333em;
 }

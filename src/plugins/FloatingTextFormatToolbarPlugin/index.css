@@ -10,27 +10,27 @@
   display: flex;
   flex-wrap: wrap;
   background: #fff;
-  padding: 4px;
+  padding: 0.267em;
   vertical-align: middle;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 10;
   opacity: 0;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
+  box-shadow: 0em 0.333em 0.667em rgba(0, 0, 0, 0.3);
+  border-radius: 0.533em;
   transition: opacity 0.5s;
-  /* height: 35px; */
+  /* height: 2.333em; */
   will-change: transform;
-  max-width: calc(100vw - 20px);
+  max-width: calc(100vw - 1.333em);
 }
 
 .floating-text-format-popup button.popup-item {
   border: 0;
   display: flex;
   background: none;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 0.667em;
+  padding: 0.533em;
   cursor: pointer;
   vertical-align: middle;
 }
@@ -40,14 +40,14 @@
 }
 
 .floating-text-format-popup button.popup-item.spaced {
-  margin-right: 2px;
+  margin-right: 0.133em;
 }
 
 .floating-text-format-popup button.popup-item i.format {
   background-size: contain;
-  height: 18px;
-  width: 18px;
-  margin-top: 2px;
+  height: 1.2em;
+  width: 1.2em;
+  margin-top: 0.133em;
   vertical-align: -0.25em;
   display: flex;
   opacity: 0.6;
@@ -73,67 +73,67 @@
   border: 0;
   display: flex;
   background: none;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 0.667em;
+  padding: 0.533em;
   vertical-align: middle;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 70px;
-  font-size: 14px;
+  width: 4.667em;
+  font-size: 0.933em;
   color: #777;
   text-overflow: ellipsis;
 }
 
 .floating-text-format-popup select.code-language {
   text-transform: capitalize;
-  width: 130px;
+  width: 8.667em;
 }
 
 .floating-text-format-popup .popup-item .text {
   display: flex;
-  line-height: 20px;
+  line-height: 1.333em;
   vertical-align: middle;
-  font-size: 14px;
+  font-size: 0.933em;
   color: #777;
   text-overflow: ellipsis;
-  width: 70px;
+  width: 4.667em;
   overflow: hidden;
-  height: 20px;
+  height: 1.333em;
   text-align: left;
 }
 
 .floating-text-format-popup .popup-item .icon {
   display: flex;
-  width: 20px;
-  height: 20px;
+  width: 1.333em;
+  height: 1.333em;
   user-select: none;
-  margin-right: 8px;
-  line-height: 16px;
+  margin-right: 0.533em;
+  line-height: 1.067em;
   background-size: contain;
 }
 
 .floating-text-format-popup i.chevron-down {
-  margin-top: 3px;
-  width: 16px;
-  height: 16px;
+  margin-top: 0.2em;
+  width: 1.067em;
+  height: 1.067em;
   display: flex;
   user-select: none;
 }
 
 .floating-text-format-popup i.chevron-down.inside {
-  width: 16px;
-  height: 16px;
+  width: 1.067em;
+  height: 1.067em;
   display: flex;
-  margin-left: -25px;
-  margin-top: 11px;
-  margin-right: 10px;
+  margin-left: -1.667em;
+  margin-top: 0.733em;
+  margin-right: 0.667em;
   pointer-events: none;
 }
 
 .floating-text-format-popup .divider {
-  width: 1px;
+  width: 0.067em;
   background-color: #eee;
-  margin: 0 4px;
+  margin: 0 0.267em;
 }
 
 /* @media (max-width: 1024px) {

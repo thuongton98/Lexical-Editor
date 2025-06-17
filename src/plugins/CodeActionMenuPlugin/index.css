@@ -7,8 +7,8 @@
  */
 
 .code-action-menu-container {
-  height: 35.8px;
-  font-size: 10px;
+  height: 2.387em;
+  font-size: 0.667em;
   color: rgba(0, 0, 0, 0.5);
   position: absolute;
   display: flex;
@@ -18,13 +18,13 @@
 }
 
 .code-action-menu-container .code-highlight-language {
-  margin-right: 4px;
+  margin-right: 0.267em;
 }
 
 .code-action-menu-container button.menu-item {
-  border: 1px solid transparent;
-  border-radius: 4px;
-  padding: 4px;
+  border: 0.067em solid transparent;
+  border-radius: 0.267em;
+  padding: 0.267em;
   background: none;
   cursor: pointer;
   flex-shrink: 0;
@@ -35,8 +35,8 @@
 }
 
 .code-action-menu-container button.menu-item i.format {
-  height: 16px;
-  width: 16px;
+  height: 1.067em;
+  width: 1.067em;
   opacity: 0.6;
   display: flex;
   color: rgba(0, 0, 0, 0.5);
@@ -44,11 +44,11 @@
 }
 
 .code-action-menu-container button.menu-item:hover {
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 0.067em solid rgba(0, 0, 0, 0.3);
   opacity: 0.9;
 }
 
 .code-action-menu-container button.menu-item:active {
   background-color: rgba(223, 232, 250);
-  border: 1px solid rgba(0, 0, 0, 0.45);
+  border: 0.067em solid rgba(0, 0, 0, 0.45);
 }

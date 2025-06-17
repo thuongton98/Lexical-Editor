@@ -8,25 +8,25 @@
  */
 
 .Button__root {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border: 0px;
+  padding-top: 0.667em;
+  padding-bottom: 0.667em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: 0em;
   background-color: #eee;
-  border-radius: 5px;
+  border-radius: 0.333em;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.933em;
 }
 .Button__root:hover {
   background-color: #ddd;
 }
 .Button__small {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 13px;
+  padding-top: 0.333em;
+  padding-bottom: 0.333em;
+  padding-left: 0.667em;
+  padding-right: 0.667em;
+  font-size: 0.867em;
 }
 .Button__disabled {
   cursor: not-allowed;

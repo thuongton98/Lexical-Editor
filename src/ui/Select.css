@@ -30,9 +30,9 @@ select {
 }
 
 .select {
-  min-width: 160px;
-  max-width: 290px;
-  border: 1px solid var(--select-border);
+  min-width: 10.667em;
+  max-width: 19.333em;
+  border: 0.067em solid var(--select-border);
   border-radius: 0.25em;
   padding: 0.25em 0.5em;
   font-size: 1rem;

@@ -8,14 +8,14 @@
 
 .font-size-input {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 0.933em;
   color: #777;
-  border-radius: 5px;
+  border-radius: 0.333em;
   border-color: grey;
-  height: 15px;
-  padding: 2px 4px;
+  height: 1em;
+  padding: 0.133em 0.267em;
   text-align: center;
-  width: 20px;
+  width: 1.333em;
   align-self: center;
 }
 
@@ -47,11 +47,11 @@ input[type='number'] {
 }
 
 button.font-decrement {
-  padding: 0px;
-  margin-right: 3px;
+  padding: 0em;
+  margin-right: 0.2em;
 }
 
 button.font-increment {
-  padding: 0px;
-  margin-left: 3px;
+  padding: 0em;
+  margin-left: 0.2em;
 }

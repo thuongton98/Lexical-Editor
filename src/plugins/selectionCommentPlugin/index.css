@@ -6,18 +6,18 @@
   position: absolute;
   top: 0;
   left: 0;
-  padding: 5px;
+  padding: 0.333em;
 }
 
 .comment-box {
   color: white;
-  padding: 6px 10px;
-  border-radius: 4px;
+  padding: 0.4em 0.667em;
+  border-radius: 0.267em;
   display: none;
   z-index: 999;
-  max-width: 200px;
+  max-width: 13.333em;
   width: max-content;
-  max-height: 250px;
+  max-height: 16.667em;
   overflow: auto;
   backdrop-filter: contrast(0.7);
 }
@@ -35,8 +35,8 @@
   opacity: 0.3;
   top: 2px;
   right: 2px;
-  padding: 3px;
-  border-radius: 3px;
+  padding: 0.2em;
+  border-radius: 0.2em;
   border: unset;
   background-color: unset;
   cursor: pointer;
@@ -51,7 +51,7 @@
 .delete-comment-btn i {
   background-size: contain;
   display: inline-block;
-  height: 15px;
-  width: 15px;
+  height: 1em;
+  width: 1em;
   vertical-align: -0.25em;
 }
