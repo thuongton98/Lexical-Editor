@@ -60,6 +60,7 @@ import {Dispatch, useCallback, useEffect, useState} from 'react';
 
 import {
   blockTypeToBlockName,
+  getFontSizeFromEM,
   useToolbarState,
 } from '../../context/ToolbarContext';
 import {INSERT_EXCALIDRAW_COMMAND} from '../../hooks/useExcalidraw';
@@ -637,9 +638,16 @@ export default function ToolbarPlugin({
       updateToolbarState('isSuperscript', selection.hasFormat('superscript'));
       updateToolbarState('isHighlight', selection.hasFormat('highlight'));
       updateToolbarState('isCode', selection.hasFormat('code'));
+
+      const fontSize = $getSelectionStyleValueForProperty(
+        selection,
+        'font-size',
+        '12px',
+      );
+      const isEM = fontSize.endsWith('em');
       updateToolbarState(
         'fontSize',
-        $getSelectionStyleValueForProperty(selection, 'font-size', '15px'),
+        isEM ? getFontSizeFromEM(+fontSize.slice(0, -2)) : fontSize,
       );
       updateToolbarState('isLowercase', selection.hasFormat('lowercase'));
       updateToolbarState('isUppercase', selection.hasFormat('uppercase'));

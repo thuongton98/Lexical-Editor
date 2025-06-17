@@ -21,7 +21,17 @@ import React, {
 
 export const MIN_ALLOWED_FONT_SIZE = 8;
 export const MAX_ALLOWED_FONT_SIZE = 72;
-export const DEFAULT_FONT_SIZE = 15;
+export const DEFAULT_FONT_SIZE = 12;
+
+export const DEFAULT_FONT_BASE = 12;
+
+export function getFontSizeFromPX(px: number) {
+  return `${px / DEFAULT_FONT_BASE}em`;
+}
+
+export function getFontSizeFromEM(em: number, onlyNumber = true) {
+  return `${Math.round(em * DEFAULT_FONT_BASE)}${onlyNumber ? 'px' : ''}`;
+}
 
 const rootTypeToRootName = {
   root: 'Root',
@@ -54,8 +64,8 @@ const INITIAL_TOOLBAR_STATE = {
   elementFormat: 'left' as ElementFormatType,
   fontColor: '#000',
   fontFamily: 'Arial',
-  // Current font size in px
-  fontSize: `${DEFAULT_FONT_SIZE}px`,
+  // Current font size in em
+  fontSize: getFontSizeFromPX(DEFAULT_FONT_SIZE),
   // Font size input value - for controlled input
   fontSizeInputValue: `${DEFAULT_FONT_SIZE}`,
   isBold: false,

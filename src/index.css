@@ -755,11 +755,13 @@ i.page-break,
   z-index: 100;
   display: block;
   position: fixed;
-  box-shadow: 0 0.8em 1.867em 0 rgba(0, 0, 0, 0.2), 0 0.133em 0.267em 0 rgba(0, 0, 0, 0.1),
+  box-shadow: 0 0.8em 1.867em 0 rgba(0, 0, 0, 0.2),
+    0 0.133em 0.267em 0 rgba(0, 0, 0, 0.1),
     inset 0 0 0 0.067em rgba(255, 255, 255, 0.5);
   border-radius: 0.533em;
   min-height: 2.667em;
   background-color: #fff;
+  overflow-y: auto;
 }
 
 .dropdown .item {

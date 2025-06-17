@@ -32,6 +32,7 @@ import {
 
 import {
   DEFAULT_FONT_SIZE,
+  getFontSizeFromPX,
   MAX_ALLOWED_FONT_SIZE,
   MIN_ALLOWED_FONT_SIZE,
 } from '../../context/ToolbarContext';
@@ -127,7 +128,7 @@ export const updateFontSizeInSelection = (
       Number(prevFontSize),
       updateType,
     );
-    return `${nextFontSize}px`;
+    return getFontSizeFromPX(nextFontSize);
   };
 
   editor.update(() => {
@@ -149,7 +150,7 @@ export const updateFontSize = (
 ) => {
   if (inputValue !== '') {
     const nextFontSize = calculateNextFontSize(Number(inputValue), updateType);
-    updateFontSizeInSelection(editor, String(nextFontSize) + 'px', null);
+    updateFontSizeInSelection(editor, getFontSizeFromPX(nextFontSize), null);
   } else {
     updateFontSizeInSelection(editor, null, updateType);
   }
