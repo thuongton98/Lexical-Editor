@@ -15,7 +15,7 @@ This package is based on `0.31.2` version of the actual `lexical-playground`.
 `1.2.1` New prop `toolbarPlugn` which enable to replace some toolbar plugin with user-defined one to handle the toolbar actions
 `1.3.0` New prop `nodeHelperConfigs` to make it possible to customize the way to edit the generated excalidraw node
 `1.4.0` Change all font-size and others from px-base to em-base. It help so much to configure the total sizes from out of the editor without needing to resize each element.
-
+`1.5.0` Add supoortion of changing text direction `rtl` and `ltr` with `shift+ctrl+alt+R` and `shift+ctrl+alt+L` shortcuts respectively
 ---
 
 ## ✨ Features
