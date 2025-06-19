@@ -31,9 +31,7 @@ import {
   $isParagraphNode,
   CLEAR_EDITOR_COMMAND,
   CLEAR_HISTORY_COMMAND,
-  COLLABORATION_TAG,
   COMMAND_PRIORITY_EDITOR,
-  HISTORIC_TAG,
 } from 'lexical';
 import {useCallback, useEffect, useState} from 'react';
 
@@ -107,7 +105,7 @@ export default function ActionsPlugin({
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const [connected, setConnected] = useState(false);
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
-  const [modal] = useModal();
+  const [modal, showModal] = useModal();
   const {isCollabActive} = useCollaborationContext();
   useEffect(() => {
     if (INITIAL_SETTINGS.isCollab) {
@@ -176,7 +174,7 @@ export default function ActionsPlugin({
       {!!actionState.exportAction && <ExportAction />}
       {!!actionState.shareAction && <ShareAction />}
       {!!actionState.clearAction && (
-        <ClearAction isEditorEmpty={isEditorEmpty} />
+        <ClearAction isEditorEmpty={isEditorEmpty} showModal={showModal} />
       )}
       {!!actionState.readonlyAction && <ReadonlyAction />}
       {!!actionState.markDownAction && (
@@ -366,18 +364,27 @@ function ShareAction() {
   );
 }
 
-function ClearAction({isEditorEmpty}: {isEditorEmpty: boolean}) {
+function ClearAction({
+  isEditorEmpty,
+  showModal,
+}: {
+  isEditorEmpty: boolean;
+  showModal: ReturnType<typeof useModal>[1];
+}) {
   const [editor] = useLexicalComposerContext();
-  const [_, showModal] = useModal();
 
   return (
     <button
       className="action-button clear"
       disabled={isEditorEmpty}
       onClick={() => {
-        showModal('Clear editor', (onClose) => (
-          <ShowClearDialog editor={editor} onClose={onClose} />
-        ));
+        showModal(
+          'Clear editor',
+          (onClose) => (
+            console.log('display that'),
+            (<ShowClearDialog editor={editor} onClose={onClose} />)
+          ),
+        );
       }}
       title="Clear"
       aria-label="Clear editor contents">
