@@ -34,7 +34,6 @@ export default [
       typescript({
         outDir: resolve(__dirname, 'dist', 'es', 'types'),
       }),
-      ,
       postcss({
         inject: true,
         extract: false,

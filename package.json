@@ -1,6 +1,6 @@
 {
-  "name": "@pourianof/lexical-playground",
-  "version": "1.5.2",
+  "name": "editor-lexical-playground",
+  "version": "1.0.0",
   "description": "Based on 0.31.2",
   "main": "./cjs/index.cjs.js",
   "module": "./es/main.js",
@@ -9,14 +9,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pourianof/lexical-playground"
+    "url": "https://github.com/thuongton98/Lexical-Editor"
   },
   "scripts": {
     "clean:types": "rimraf ./dist/es/types",
     "clean:dist": "rimraf -g ./dist/*",
     "rollup": "npm run clean:dist && rollup -c --bundleConfigAsCjs && npm run copy && npm run clean:types",
     "cp4test": "node ./scripts/copyPackageForTest.cjs",
-    "pub": "npm publish ./dist --scope=@pourianof --access public",
+    "pub": "npm publish ./dist --scope=thuong98 --access public",
     "sync:lexical": "node ./scripts/sync-lexical-deps.cjs",
     "dev": "vite --host --port 3000",
     "build-dev": "vite build",
