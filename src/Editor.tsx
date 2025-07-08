@@ -32,6 +32,8 @@ import {useEffect, useState} from 'react';
 
 import {OnChangePlugin} from '@lexical/react/LexicalOnChangePlugin';
 import {LexicalEditor} from 'lexical';
+import {$generateHtmlFromNodes, $generateNodesFromDOM} from '@lexical/html';
+import {$getRoot, $insertNodes} from 'lexical';
 import {createWebsocketProvider} from './collaboration';
 import {useSettings} from './context/SettingsContext';
 import {useSharedHistoryContext} from './context/SharedHistoryContext';
@@ -91,11 +93,13 @@ export type PluginBuilder = (editor: LexicalEditor) => ReactNode;
 
 export type EditorProps = {
   onChange?: OnEditorStateChangeCallback;
+  onHtmlChange?: (html: string) => void;
   hideToolbar?: boolean;
   readOnly?: boolean;
   pluginBuilder?: PluginBuilder;
   domMutation?: boolean;
   toolbarPlugins?: Partial<ToolbarPlugins>;
+  htmlContent?: string;
 };
 
 export default function Editor(props: EditorProps): JSX.Element {
@@ -143,6 +147,22 @@ export default function Editor(props: EditorProps): JSX.Element {
 
   const toolbarPlugins = useToolbarPlugins(props.toolbarPlugins);
 
+  // Handle onChange with HTML conversion
+  const handleEditorChange = (editorState: any, editor: LexicalEditor, tags: Set<string>) => {
+    // Call original onChange if provided
+    if (props.onChange) {
+      props.onChange(editorState, editor, tags);
+    }
+
+    // Convert to HTML and call onHtmlChange if provided
+    if (props.onHtmlChange) {
+      editor.update(() => {
+        const htmlString = $generateHtmlFromNodes(editor, null);
+        props.onHtmlChange!(htmlString);
+      });
+    }
+  };
+
   useEffect(() => {
     const updateViewPortWidth = () => {
       const isNextSmallWidthViewport =
@@ -184,6 +204,25 @@ export default function Editor(props: EditorProps): JSX.Element {
     }
   }, [props.readOnly, editor]);
 
+  // Handle HTML content conversion
+  useEffect(() => {
+    if (props.htmlContent) {
+      editor.update(() => {
+        // Clear existing content
+        const root = $getRoot();
+        root.clear();
+
+        // Parse HTML and convert to Lexical nodes
+        const parser = new DOMParser();
+        const dom = parser.parseFromString(props.htmlContent!, 'text/html');
+        const nodes = $generateNodesFromDOM(editor, dom);
+        
+        // Insert the nodes
+        $insertNodes(nodes);
+      });
+    }
+  }, [props.htmlContent, editor]);
+
   return (
     <>
       {isRichText && !props.hideToolbar && (
@@ -206,7 +245,9 @@ export default function Editor(props: EditorProps): JSX.Element {
           !isRichText ? 'plain-text' : ''
         } ${editor.isEditable() ? 'readonly' : ''}`}>
         {isMaxLength && <MaxLengthPlugin maxLength={30} />}
-        {!!props.onChange && <OnChangePlugin onChange={props.onChange} />}
+        {(!!props.onChange || !!props.onHtmlChange) && (
+          <OnChangePlugin onChange={handleEditorChange} />
+        )}
         <DragDropPaste />
         <AutoFocusPlugin />
         {selectionAlwaysOnDisplay && <SelectionAlwaysOnDisplay />}

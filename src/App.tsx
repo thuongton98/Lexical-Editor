@@ -46,6 +46,8 @@ type AppProps = {
   readOnly?: boolean;
   pluginBuilder?: PluginBuilder;
   domMutation?: boolean;
+  htmlContent?: string;
+  onHtmlChange?: (html: string) => void;
 } & EditorProps;
 
 export function App(props: AppProps): JSX.Element {
@@ -73,6 +75,8 @@ export function App(props: AppProps): JSX.Element {
                 hideToolbar={props.hideToolbar}
                 onChange={props.onChange}
                 pluginBuilder={props.pluginBuilder}
+                htmlContent={props.htmlContent}
+                onHtmlChange={props.onHtmlChange}
               />
             </div>
             {/* {isDevPlayground && <Settings />}
@@ -101,6 +105,8 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
     theme,
     domMutation,
     actionsDisplayState,
+    onHtmlChange,
+    htmlContent,
     toolbarPlugins,
     ...settings
   } = props;
@@ -121,6 +127,8 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
               initialState={initialState}
               theme={theme}
               onChange={onChange}
+              htmlContent={htmlContent}
+              onHtmlChange={onHtmlChange}
               pluginBuilder={pluginBuilder}
             />
           </NodeConfigsContextProvider>
