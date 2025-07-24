@@ -100,7 +100,7 @@ export type EditorProps = {
   domMutation?: boolean;
   toolbarPlugins?: Partial<ToolbarPlugins>;
   htmlContent?: string;
-  description?: string;
+  placeholder?: string;
 };
 
 export default function Editor(props: EditorProps): JSX.Element {
@@ -127,12 +127,8 @@ export default function Editor(props: EditorProps): JSX.Element {
     },
   } = useSettings();
   const isEditable = useLexicalEditable();
-  const placeholder =
-    props.description || isCollab
-      ? 'Enter some collaborative rich text...'
-      : isRichText
-      ? 'Enter some rich text...'
-      : 'Enter some plain text...';
+  const placeholder = props.placeholder;
+  console.log(placeholder);
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] =
@@ -283,7 +279,7 @@ export default function Editor(props: EditorProps): JSX.Element {
               contentEditable={
                 <div className="editor-scroller">
                   <div className="editor" ref={onRef}>
-                    <ContentEditable placeholder={placeholder} />
+                    <ContentEditable placeholder={placeholder || ''} />
                   </div>
                 </div>
               }
@@ -345,7 +341,9 @@ export default function Editor(props: EditorProps): JSX.Element {
         ) : (
           <>
             <PlainTextPlugin
-              contentEditable={<ContentEditable placeholder={placeholder} />}
+              contentEditable={
+                <ContentEditable placeholder={placeholder || ''} />
+              }
               ErrorBoundary={LexicalErrorBoundary}
             />
             <HistoryPlugin externalHistoryState={historyState} />

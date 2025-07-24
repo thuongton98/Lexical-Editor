@@ -48,7 +48,7 @@ type AppProps = {
   domMutation?: boolean;
   htmlContent?: string;
   onHtmlChange?: (html: string) => void;
-  description?: string;
+  placeholder?: string;
 } & EditorProps;
 
 export function App(props: AppProps): JSX.Element {
@@ -78,7 +78,7 @@ export function App(props: AppProps): JSX.Element {
                 pluginBuilder={props.pluginBuilder}
                 htmlContent={props.htmlContent}
                 onHtmlChange={props.onHtmlChange}
-                description={props.description}
+                placeholder={props.placeholder}
               />
             </div>
             {/* {isDevPlayground && <Settings />}
@@ -110,7 +110,7 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
     onHtmlChange,
     htmlContent,
     toolbarPlugins,
-    description,
+    placeholder,
     ...settings
   } = props;
 
@@ -133,7 +133,7 @@ export default function PlaygroundApp(props: PlayGroundAppProps): JSX.Element {
               htmlContent={htmlContent}
               onHtmlChange={onHtmlChange}
               pluginBuilder={pluginBuilder}
-              description={description}
+              placeholder={placeholder}
             />
           </NodeConfigsContextProvider>
         </ActionsDisplayStateContext>
