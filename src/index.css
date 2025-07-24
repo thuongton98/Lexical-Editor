@@ -1496,8 +1496,6 @@ button.action-button:disabled {
   margin-bottom: 0.067em;
   background: #fff;
   padding: 0.267em;
-  border-top-left-radius: 0.667em;
-  border-top-right-radius: 0.667em;
   vertical-align: middle;
   overflow: auto;
   height: auto;

@@ -100,6 +100,7 @@ export type EditorProps = {
   domMutation?: boolean;
   toolbarPlugins?: Partial<ToolbarPlugins>;
   htmlContent?: string;
+  description?: string;
 };
 
 export default function Editor(props: EditorProps): JSX.Element {
@@ -126,11 +127,12 @@ export default function Editor(props: EditorProps): JSX.Element {
     },
   } = useSettings();
   const isEditable = useLexicalEditable();
-  const placeholder = isCollab
-    ? 'Enter some collaborative rich text...'
-    : isRichText
-    ? 'Enter some rich text...'
-    : 'Enter some plain text...';
+  const placeholder =
+    props.description || isCollab
+      ? 'Enter some collaborative rich text...'
+      : isRichText
+      ? 'Enter some rich text...'
+      : 'Enter some plain text...';
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] =
@@ -148,7 +150,11 @@ export default function Editor(props: EditorProps): JSX.Element {
   const toolbarPlugins = useToolbarPlugins(props.toolbarPlugins);
 
   // Handle onChange with HTML conversion
-  const handleEditorChange = (editorState: any, editor: LexicalEditor, tags: Set<string>) => {
+  const handleEditorChange = (
+    editorState: any,
+    editor: LexicalEditor,
+    tags: Set<string>,
+  ) => {
     // Call original onChange if provided
     if (props.onChange) {
       props.onChange(editorState, editor, tags);
@@ -216,7 +222,7 @@ export default function Editor(props: EditorProps): JSX.Element {
         const parser = new DOMParser();
         const dom = parser.parseFromString(props.htmlContent!, 'text/html');
         const nodes = $generateNodesFromDOM(editor, dom);
-        
+
         // Insert the nodes
         $insertNodes(nodes);
       });
